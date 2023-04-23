@@ -3,6 +3,7 @@
     <string name="main_btn_sign_in_text">Войти в аккаунт</string>
     <string name="main_btn_sign_up_text">Зарегистрироваться</string>
     <string name="MAPS_API_KEY">AIzaSyCrhv3ZZIrDjWkS95nQIg1KHQQGU_MUz4k</string>
+    <string name="number_format">+7%s</string>
 
 
     <!-- Login Fragment -->
@@ -12,6 +13,8 @@
     <string name="login_et_password_hint">Пароль</string>
     <string name="login_btn_sign_in_next_text">Продолжить</string>
     <string name="login_btn_forgot_password_text">Забыл пароль</string>
+    <string name="create_pass">Придумайте пароль</string>
+    <string name="create_pass_subtitle">Чтобы зарегистрировать аккаунт, придумайте пароль</string>
 
     <string name="on_failure_text">Ошибка подключения к серверу. Повторите попытку позже.</string>
 

@@ -26,6 +26,11 @@ class OpenFragment: Fragment(R.layout.open_fragment) {
                     R.id.action_openFragment_to_confirmNumberFragment
                 )
             }
+            btnSignIn.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_openFragment_to_loginFragment
+                )
+            }
         }
     }
 

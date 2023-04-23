@@ -35,13 +35,13 @@
         android:background="@drawable/search_bottom_sheet_background"
         android:orientation="vertical">
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="40dp"
-            android:layout_height="5dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/search_view" />
+<!--        <View-->
+<!--            android:id="@+id/view"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="5dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:background="@drawable/search_view" />-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -109,16 +109,15 @@
             app:drawableLeftCompat="@drawable/ic_search_btn_filters" />
 
         <ProgressBar
-            android:id="@+id/progressBar8"
+            android:id="@+id/progress"
             style="?android:attr/progressBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

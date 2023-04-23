@@ -198,6 +198,7 @@
                 android:id="@+id/et_email"
                 style="@style/TextAppearance.MaterialComponents.Body1"
                 android:layout_width="match_parent"
+                android:inputType="textEmailAddress"
                 android:layout_height="56dp"
                 android:autofillHints=""
                 android:background="@drawable/style_edit_text"
@@ -235,7 +236,8 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <ProgressBar
-            android:id="@+id/load_info"
+            android:id="@+id/progress"
+            android:visibility="gone"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

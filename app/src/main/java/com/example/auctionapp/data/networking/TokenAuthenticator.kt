@@ -1,6 +1,8 @@
 package com.example.auctionapp.data.networking
 
 import android.util.Log
+import com.example.auctionapp.data.model.GetRefreshDTO
+import com.example.auctionapp.tools.PreferencesHelper
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.net.HttpURLConnection
@@ -8,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 //@Singleton
-//class TokenAuthenticator @Inject constructor(private val apiService: ApiService) : Interceptor {
+//class TokenAuthenticator @Inject constructor(private val apiService: ApiService, private val prefs: PreferencesHelper) : Interceptor {
 //    private var tokenRefreshed = false
 //
 //    override fun intercept(chain: Interceptor.Chain): Response {
@@ -19,27 +21,23 @@ import javax.inject.Singleton
 //            synchronized(this) {
 //                if (!tokenRefreshed) {
 //                    tokenRefreshed = true
+//                    val refreshToken = prefs.mRefreshToken
 //
-//                    // Выполняем запрос на обновление access token с помощью refresh token
-//                    val refreshToken = getRefreshToken() // получаем refresh token из SharedPreferences или другого места
-//                    val responseToken = apiService.getRefreshToken(refreshToken).execute()
+//                    val responseToken = apiService.getRefreshToken(GetRefreshDTO(refreshToken))
 //
 //                    if (responseToken.isSuccessful) {
-//                        // Обновляем access token и добавляем его в заголовок авторизации
 //                        val accessToken = responseToken.body()?.accessToken
-//                        saveAccessToken(accessToken) // сохраняем access token в SharedPreferences или другом месте
+//                        prefs.mAccessToken = accessToken!!
 //                        val newRequest = request.newBuilder()
 //                            .header("Authorization", "Bearer $accessToken")
 //                            .build()
 //                        response = chain.proceed(newRequest)
 //                    } else {
-//                        // Ошибка обновления токена, логируем ее
 //                        Log.e("TokenAuthenticator", "Failed to refresh token")
 //                    }
 //                } else {
-//                    // Другой запрос уже обновляет токен, ждем его завершения и повторяем запрос
-//                    Thread.sleep(1000) // задержка на случай, если запрос обновления токена еще не завершен
-//                    val newAccessToken = getAccessToken() // получаем обновленный access token
+//                    Thread.sleep(1000)
+//                    val newAccessToken = prefs.mAccessToken
 //                    val newRequest = request.newBuilder()
 //                        .header("Authorization", "Bearer $newAccessToken")
 //                        .build()
@@ -50,6 +48,5 @@ import javax.inject.Singleton
 //
 //        return response
 //    }
-
-    // Функции getRefreshToken, saveAccessToken и getAccessToken нужно реализовать в соответствии с вашей логикой
+//
 //}

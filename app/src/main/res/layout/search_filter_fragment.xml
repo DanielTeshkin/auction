@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--        app:srcCompat="@drawable/ic_close"-->
 
     <ImageView
-        android:id="@+id/back"
+            app:srcCompat="@drawable/ic_close"
+    android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
         android:layout_marginTop="17dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <ScrollView
@@ -117,13 +117,12 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-<!--            android:background="@drawable/style_list"-->
 
             <LinearLayout
                 android:id="@+id/select"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-
+                        android:background="@drawable/style_list"
                 android:orientation="horizontal"
 
                 app:layout_constraintBottom_toTopOf="@+id/category"
@@ -141,17 +140,16 @@
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
-<!--                android:src="@drawable/ic_open"-->
 
                 <ImageButton
-                    style="@style/Widget.AppCompat.Button.Borderless"
+                                android:src="@drawable/ic_open"
+                style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="18dp"
                     android:layout_height="wrap_content"
                     tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
-<!--            android:background="@drawable/style_list"-->
 
 
             <LinearLayout
@@ -160,7 +158,7 @@
                 android:layout_height="50dp"
 
                 android:layout_marginBottom="10dp"
-
+                        android:background="@drawable/style_list"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/price_title"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -177,10 +175,10 @@
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
-<!--                android:src="@drawable/ic_open"-->
 
                 <ImageButton
-                    style="@style/Widget.AppCompat.Button.Borderless"
+                                android:src="@drawable/ic_open"
+                style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="18dp"
                     android:layout_height="wrap_content"
                     tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
@@ -308,15 +306,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/apply" />
 
-<!--            android:drawableRight="@drawable/selector_checkbox"-->
 
             <CheckBox
-
                 android:id="@+id/in_stock"
+
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:button="@null"
+                android:drawableRight="@drawable/selector_checkbox"
                 android:text="@string/search_filter_fragment_in_stock"
                 android:textColor="@color/big_stone"
                 android:textSize="16sp"
@@ -349,20 +347,20 @@
 
             <ScrollView
                 android:id="@+id/scroll"
-                app:layout_constraintTop_toBottomOf="@+id/in_stock"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_height="wrap_content">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_filters"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible"
-              />
+                app:layout_constraintTop_toBottomOf="@+id/in_stock">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_filters"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible" />
             </ScrollView>
 
 

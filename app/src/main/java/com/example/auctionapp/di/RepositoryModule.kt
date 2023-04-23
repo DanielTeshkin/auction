@@ -1,7 +1,7 @@
 package com.example.auctionapp.di
 
-import com.example.auctionapp.data.repository.ConfirmNumberRepositoryImpl
-import com.example.auctionapp.domain.repository.ConfirmNumberRepository
+import com.example.auctionapp.data.repository.*
+import com.example.auctionapp.domain.repository.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,4 +14,20 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun provideConfirmNumberRepo(repo: ConfirmNumberRepositoryImpl): ConfirmNumberRepository
+
+    @Binds
+    abstract fun provideCodeRepo(repo: CodeRepositoryImpl): CodeRepository
+
+    @Binds
+    abstract fun provideLoginRepo(repo: LoginRepositoryImpl): LoginRepository
+
+    @Binds
+    abstract fun provideCompletionRepo(repo: CompletionRepositoryImpl): CompletionRepository
+
+    @Binds
+    abstract fun provideProductsRepo(repo: ProductRepositoryImpl): ProductRepository
+
+    @Binds
+    abstract fun provideDetailRepo(repo: DetailInfoRepositoryImpl): DetailInfoRepository
+
 }

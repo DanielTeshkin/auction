@@ -1,5 +1,6 @@
 package com.example.auctionapp.data.model
 
+import com.example.auctionapp.domain.models.SendCodeModel
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -10,5 +11,12 @@ data class SendCodeDTO(
     @Json(name = "code")
     val code: String
 )
+
+fun SendCodeDTO.toModel() : SendCodeModel {
+    return SendCodeModel(
+        phone = phone,
+        code = code
+    )
+}
 
 

@@ -41,21 +41,25 @@ class ConfirmNumberFragment : Fragment(R.layout.confirm_number_fragment) {
 
     private fun handleView() {
         binding.btnSignInNext.setOnClickListener {
-            viewModel.sendNumber(binding.etNumber.text.toString())
+            viewModel.sendNumber(getString(R.string.number_format, binding.etNumber.text.toString().replace(Regex("[^\\d]"), "")))
         }
     }
 
     private fun handleData() {
-            viewModel.dataFlow.observe(viewLifecycleOwner) {
-                findNavController().navigate(R.id.action_confirmNumberFragment_to_confirmCodeFragment)
-            }
-            viewModel.failFlow.observe(viewLifecycleOwner) { message ->
-                Log.d("failFlow", message)
-                toast(message)
-            }
-            viewModel.progressFlow.observe(viewLifecycleOwner) {
-                binding.progress.isGone = !it
-            }
+        viewModel.dataFlow.observe(viewLifecycleOwner) {
+            findNavController().navigate(
+                ConfirmNumberFragmentDirections.actionConfirmNumberFragmentToConfirmCodeFragment(
+                    number = binding.etNumber.text.toString()
+                )
+            )
+        }
+        viewModel.failFlow.observe(viewLifecycleOwner) { message ->
+            Log.d("failFlow", message)
+            toast(message)
+        }
+        viewModel.progressFlow.observe(viewLifecycleOwner) {
+            binding.progress.isGone = !it
+        }
     }
 
     private fun phoneNumberMask() {

@@ -1,5 +1,7 @@
 package com.example.auctionapp.data.model
 
+import com.example.auctionapp.domain.models.UserInfoModel
+import com.example.auctionapp.domain.models.UserInfoResponseModel
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -16,3 +18,9 @@ data class UserInfoResponseDTO(
     @Json(name = "city")
     val cityPk: CityDTO,
 )
+
+fun UserInfoResponseDTO.toModel(): UserInfoResponseModel {
+    return UserInfoResponseModel(
+        firstName, lastName, patronymic, email, cityPk.toModel()
+    )
+}

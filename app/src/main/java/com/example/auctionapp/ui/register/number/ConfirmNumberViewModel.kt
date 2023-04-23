@@ -8,6 +8,7 @@ import com.example.auctionapp.domain.models.BaseResponse
 import com.example.auctionapp.domain.models.ConfirmCodeResponse
 import com.example.auctionapp.domain.models.ConfirmPhoneModel
 import com.example.auctionapp.domain.repository.ConfirmNumberRepository
+import com.example.auctionapp.tools.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +23,7 @@ class ConfirmNumberViewModel @Inject constructor(
     private val _dataFlow = MutableLiveData<ConfirmCodeResponse>()
     val dataFlow: LiveData<ConfirmCodeResponse> = _dataFlow
 
-    private val _failFlow = MutableLiveData<String>()
+    private val _failFlow = SingleLiveEvent<String>()
     val failFlow: LiveData<String> = _failFlow
     private val _progressFlow = MutableLiveData<Boolean>()
     val progressFlow: LiveData<Boolean> = _progressFlow

@@ -2,11 +2,14 @@ package com.example.auctionapp.data.networking
 
 import com.example.auctionapp.data.*
 import com.example.auctionapp.data.model.*
+import com.example.auctionapp.domain.models.BaseResponse
 import kotlinx.coroutines.flow.Flow
+import okhttp3.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
 
@@ -22,25 +25,33 @@ interface ApiService {
 
     @POST("sign-in/")
     suspend fun signIn(
-        info: SignInDTO
+        @Body info: SignInDTO
     ): SignUpResponseDTO
 
     @POST("sign-up/")
     suspend fun signUp(
-        info: SignInDTO
+        @Body info: SignInDTO
     ): SignUpResponseDTO
 
     @GET("cities/")
-    suspend fun getCitiesList(): CitiesDTO
+    suspend fun getCitiesList(): List<CitiesDTO>
 
     @POST("token/refresh/")
-    suspend fun getRefreshToken(
-        info: GetRefreshDTO
-    ): GetRefreshResponseDTO
+    fun getRefreshToken(
+        @Body info: GetRefreshDTO
+    ): retrofit2.Response<GetRefreshResponseDTO>
 
     @PATCH("user_info/")
     suspend fun userInfo(
-        info: UserInfoDTO
-    ): UserInfoDTO
+        @Body info: UserInfoDTO
+    ): UserInfoResponseDTO
+
+    @GET("product/")
+    suspend fun getProduct(): ProductBaseResponseDTO
+
+    @GET("product/{id}")
+    suspend fun getProductById(
+        @Path("id") id: String
+    ): ProductDTO
 
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+<variable
+    name="listener"
+    type="com.example.auctionapp.ui.detail.adapter.PhotosAdapterDelegate.OnPhotoClickListener" />
+    <variable
+        name="photo"
+        type="com.example.auctionapp.domain.models.PhotosModel" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:onClick="@{(view) -> listener.onItemClick(photo)}"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:elevation="30dp"
+            android:focusable="true"
+            app:cardCornerRadius="10dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:src="@drawable/car"
+                android:scaleType="centerCrop"
+                android:id="@+id/avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </FrameLayout>
+</layout>

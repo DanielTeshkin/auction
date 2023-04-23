@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:mask="http://schemas.android.com/tools"
     android:layout_margin="20dp">
 
     <ImageButton
+        android:padding="10dp"
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:onClick="@{loginVM::navigateBack}"
         android:src="@drawable/ic_arrow_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,37 +45,66 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_number"
+    <LinearLayout
+        android:id="@+id/ll_number"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
-        app:hintAnimationEnabled="false"
-        app:hintEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subtitle">
+        android:layout_height="56dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/style_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/title">
 
-        <EditText
-            android:id="@+id/et_number"
+        <TextView
+            android:id="@+id/plus"
             style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="+7"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/v"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#CAD1D6" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_number"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:autofillHints=""
-            android:background="@drawable/style_edit_text"
-            android:hint="@string/login_et_number_hint"
-            android:inputType="number"
-            android:maxLength="11"
-            android:maxLines="1"
-            android:paddingStart="16dp"
-            android:paddingTop="0dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="0dp"
-            android:text="89279332890"
-            android:textColorHint="#8C162344" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="match_parent"
+            app:boxBackgroundMode="none"
+            app:endIconDrawable="@drawable/ic_clear_text"
+            app:endIconMode="custom"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/et_number"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/masked_et_hint"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingTop="0dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="0dp"
+
+                android:textColor="@color/black"
+                android:textColorHighlight="@android:color/transparent"
+                mask:mask="### ### ####"
+                tools:ignore="LabelFor,TextFields" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </LinearLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -88,7 +118,7 @@
         app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_number"
+        app:layout_constraintTop_toBottomOf="@+id/ll_number"
         app:passwordToggleDrawable="@drawable/selector_eye"
         app:passwordToggleEnabled="true">
 
@@ -106,7 +136,6 @@
             android:paddingTop="0dp"
             android:paddingEnd="16dp"
             android:paddingBottom="0dp"
-            android:text="password"
             android:textColorHint="#8C162344" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -144,14 +173,11 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ProgressBar
-        android:id="@+id/progressBar14"
+        android:visibility="gone"
+        android:id="@+id/progress"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="111dp"
-        android:layout_marginEnd="164dp"
-        android:layout_marginBottom="308dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_sign_in_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

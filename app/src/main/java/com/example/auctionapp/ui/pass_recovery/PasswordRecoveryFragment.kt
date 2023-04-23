@@ -5,5 +5,5 @@ import com.example.auctionapp.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PassportRecoveryFragment: Fragment(R.layout.password_recovery_fragment) {
+class PasswordRecoveryFragment: Fragment(R.layout.password_recovery_fragment) {
 }

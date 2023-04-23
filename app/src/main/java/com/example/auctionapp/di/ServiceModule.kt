@@ -1,6 +1,7 @@
 package com.example.auctionapp.di
 
 import com.example.auctionapp.data.networking.ApiService
+import com.example.auctionapp.data.networking.TokenAuthenticator
 import com.example.auctionapp.data.networking.TokenInterceptor
 import com.example.auctionapp.tools.PreferencesHelper
 import dagger.Module
@@ -20,13 +21,17 @@ class ServiceModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(helper: PreferencesHelper): OkHttpClient {
+    fun provideOkHttpClient(api: ApiService, helper: PreferencesHelper): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(TokenInterceptor(helper))
             .addNetworkInterceptor(
                 HttpLoggingInterceptor()
                     .setLevel(HttpLoggingInterceptor.Level.BODY)
             )
+//            .addInterceptor(
+//                TokenAuthenticator(api, helper)
+//            )
+            .addInterceptor(TokenInterceptor(helper))
+
             .build()
     }
 

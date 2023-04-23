@@ -8,13 +8,11 @@ import javax.inject.Singleton
 
 @Singleton
 class PreferencesHelper @Inject constructor(
-@ApplicationContext context: Context
+@ApplicationContext private val context: Context
 ) {
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences =
+        context.getSharedPreferences("mainPreferences", Context.MODE_PRIVATE)
 
-    init {
-        sharedPreferences = context.getSharedPreferences("mainPreferences", Context.MODE_PRIVATE)
-    }
     private inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit) {
         val editor = edit()
         operation(editor)
