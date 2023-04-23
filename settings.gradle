@@ -4,13 +4,18 @@ pluginManagement {
         google()
         mavenCentral()
     }
+
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
+        maven { url 'https://jitpack.io' }
         mavenCentral()
     }
+    ext.kotlin_version = "1.8"
+    ext.hilt_version = "2.44.2"
+
 }
 rootProject.name = "AuctionApp"
 include ':app'

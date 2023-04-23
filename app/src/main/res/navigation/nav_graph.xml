@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/openFragment">
+
+    <fragment
+        android:id="@+id/openFragment"
+        android:name="com.example.auctionapp.ui.open.OpenFragment"
+        android:label="OpenFragment" >
+        <action
+            android:id="@+id/action_openFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_openFragment_to_confirmNumberFragment"
+            app:destination="@id/confirmNumberFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.auctionapp.ui.login.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_passportRecoveryFragment"
+            app:destination="@id/passportRecoveryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passportRecoveryFragment"
+        android:name="com.example.auctionapp.ui.pass_recovery.PassportRecoveryFragment"
+        android:label="PassportRecoveryFragment" >
+        <action
+            android:id="@+id/action_passportRecoveryFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmNumberFragment"
+        android:name="com.example.auctionapp.ui.register.number.ConfirmNumberFragment"
+        android:label="ConfirmNumberFragment" >
+        <action
+            android:id="@+id/action_confirmNumberFragment_to_confirmCodeFragment"
+            app:destination="@id/confirmCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmCodeFragment"
+        android:name="com.example.auctionapp.ui.register.code.ConfirmCodeFragment"
+        android:label="ConfirmCodeFragment" >
+        <action
+            android:id="@+id/action_confirmCodeFragment_to_completionFragment"
+            app:destination="@id/completionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/completionFragment"
+        android:name="com.example.auctionapp.ui.register.completion.CompletionFragment"
+        android:label="CompletionFragment" >
+        <action
+            android:id="@+id/action_completionFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.auctionapp.ui.search.SearchFragment"
+        android:label="SearchFragment" />
+</navigation>
