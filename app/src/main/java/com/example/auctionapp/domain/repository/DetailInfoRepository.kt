@@ -6,4 +6,7 @@ import com.example.auctionapp.domain.models.ProductModel
 interface DetailInfoRepository {
 
     suspend fun getDetailInfo(id: String): BaseResponse<ProductModel>
+
+    suspend fun raisePrice(id: String, price: String): BaseResponse<String>
+
 }

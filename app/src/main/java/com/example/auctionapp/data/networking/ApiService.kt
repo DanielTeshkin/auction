@@ -6,10 +6,12 @@ import com.example.auctionapp.domain.models.BaseResponse
 import kotlinx.coroutines.flow.Flow
 import okhttp3.Response
 import retrofit2.http.Body
+import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -47,11 +49,20 @@ interface ApiService {
     ): UserInfoResponseDTO
 
     @GET("product/")
-    suspend fun getProduct(): ProductBaseResponseDTO
+    suspend fun getProduct(
+        @Query("q") text: String,
+        @Query("sort") sort: String
+    ): ProductBaseResponseDTO
 
     @GET("product/{id}")
     suspend fun getProductById(
         @Path("id") id: String
     ): ProductDTO
+
+    @POST("product/{id}/raise_price/")
+    suspend fun raisePrice(
+        @Path("id") id: String,
+        @Body price: NewPriceDTO
+    ): String
 
 }

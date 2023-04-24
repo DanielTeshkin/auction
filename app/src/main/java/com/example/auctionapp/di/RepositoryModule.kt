@@ -30,4 +30,5 @@ abstract class RepositoryModule {
     @Binds
     abstract fun provideDetailRepo(repo: DetailInfoRepositoryImpl): DetailInfoRepository
 
+
 }

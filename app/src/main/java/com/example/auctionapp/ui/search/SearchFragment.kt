@@ -9,15 +9,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import autoCleared
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.auctionapp.R
 import com.example.auctionapp.databinding.SearchFragmentBinding
 import com.example.auctionapp.domain.models.ProductModel
+import com.example.auctionapp.tools.textChangedFlow
 import com.example.auctionapp.tools.toast
 import com.example.auctionapp.ui.search.adapter.ProductAdapter
 import com.example.auctionapp.ui.search.adapter.ProductAdapterDelegate
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -27,12 +31,16 @@ class SearchFragment : Fragment(R.layout.search_fragment),
     private val binding by viewBinding(SearchFragmentBinding::bind)
     private val viewModel by viewModels<SearchViewModel>()
     private var productAdapter: ProductAdapter by autoCleared()
+    private var searchJob: Job? = null
+    private var sort: Boolean = false
+    private var searchText: String = ""
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        initData()
         handleData()
+        search()
     }
 
 
@@ -40,23 +48,38 @@ class SearchFragment : Fragment(R.layout.search_fragment),
         productAdapter = ProductAdapter(this)
         with(binding.rv) {
             adapter = productAdapter
-            layoutManager = GridLayoutManager(requireContext(), 2)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             setHasFixedSize(false)
         }
-
         binding.sort.setOnClickListener {
-            findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
+            sort = !sort
+            val sortInfo = if (sort) "price" else ""
+            viewModel.getProducts(searchText, sortInfo)
         }
     }
 
+    private fun search() {
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            binding.searchEt.textChangedFlow().onStart { emit("") }
+                .debounce(500)
+                .distinctUntilChanged()
+                .mapLatest { text ->
+                    searchText = text
+                    Log.d("productsLive", "SEARCH")
+                    val sortInfo = if (sort) "price" else ""
+                    viewModel.getProducts(text, sortInfo)
+                }
+                .collect()
+        }
+    }
 
     private fun handleData() {
         with(viewModel) {
-            lifecycleScope.launch {
-                productFlow.collect { products ->
-                    Log.d("productsLive", products.toString())
-                    productAdapter.items = products
-                }
+            productLive.observe(viewLifecycleOwner) { products ->
+                Log.d("productsLive", "LIVE")
+                productAdapter.items = products
             }
             progressLive.observe(viewLifecycleOwner) {
                 binding.progress.isGone = !it
@@ -67,10 +90,6 @@ class SearchFragment : Fragment(R.layout.search_fragment),
         }
     }
 
-
-    private fun initData() {
-        viewModel.getProducts()
-    }
 
     override fun onItemClick(product: ProductModel) {
         findNavController().navigate(

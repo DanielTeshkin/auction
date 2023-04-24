@@ -18,10 +18,13 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     val repo: DetailInfoRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _successLive = MutableLiveData<Unit>()
     val successLive: LiveData<Unit> get() = _successLive
+
+    private val _raisePriceLive = MutableLiveData<Boolean>()
+    val raisePriceLive: LiveData<Boolean> get() = _raisePriceLive
 
     private val _failLive = SingleLiveEvent<String>()
     val failLive: LiveData<String> get() = _failLive
@@ -33,12 +36,13 @@ class DetailViewModel @Inject constructor(
     val photosFlow: StateFlow<List<PhotosModel>> get() = _photosFlow
 
     private val _infoFlow = MutableStateFlow<ProductModel?>(null)
-    val infoFlow : StateFlow<ProductModel?> get () = _infoFlow
+    val infoFlow: StateFlow<ProductModel?> get() = _infoFlow
 
     fun getDetailInfo(id: String) {
         viewModelScope.launch {
+            _progressLive.postValue(true)
             val result = repo.getDetailInfo(id)
-            when(result) {
+            when (result) {
                 is BaseResponse.Success -> {
                     result.data.photos?.let { _photosFlow.emit(it) }
                     _infoFlow.emit(result.data)
@@ -47,6 +51,25 @@ class DetailViewModel @Inject constructor(
                     _failLive.postValue(result.message)
                 }
             }
+            _progressLive.postValue(false)
+        }
+    }
+
+    fun raisePrice(id: String, price: String, success: () -> Unit, fail: () -> Unit) {
+        viewModelScope.launch {
+            _progressLive.postValue(true)
+            val result = repo.raisePrice(id, price)
+            when (result) {
+                is BaseResponse.Success -> {
+                    _raisePriceLive.postValue(true)
+                    success()
+                }
+                is BaseResponse.Error -> {
+                    fail()
+                    _failLive.postValue(result.message)
+                }
+            }
+            _progressLive.postValue(false)
         }
     }
 }

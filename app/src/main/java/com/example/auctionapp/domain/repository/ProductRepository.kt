@@ -5,5 +5,5 @@ import com.example.auctionapp.domain.models.ProductModel
 
 interface ProductRepository {
 
-    suspend fun getProducts(): BaseResponse<List<ProductModel>>
+    suspend fun getProducts(q: String, sort: String): BaseResponse<List<ProductModel>>
 }

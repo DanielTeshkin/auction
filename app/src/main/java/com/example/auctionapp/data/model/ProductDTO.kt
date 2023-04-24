@@ -21,7 +21,7 @@ data class ProductDTO(
     @Json(name = "end_date")
     val endDate: String?,
     @Json(name = "price")
-    val price: Double,
+    val price: Long,
     @Json(name = "category")
     val category: String?
 )

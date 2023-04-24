@@ -13,6 +13,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -21,7 +22,7 @@ class ServiceModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(api: ApiService, helper: PreferencesHelper): OkHttpClient {
+    fun provideOkHttpClient(helper: PreferencesHelper): OkHttpClient {
         return OkHttpClient.Builder()
             .addNetworkInterceptor(
                 HttpLoggingInterceptor()
@@ -31,13 +32,12 @@ class ServiceModule {
 //                TokenAuthenticator(api, helper)
 //            )
             .addInterceptor(TokenInterceptor(helper))
-
             .build()
     }
 
     @Provides
     @Singleton
-    fun providesRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun providesRetrofit( okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://auction-project.ru/api/")
             .client(okHttpClient)

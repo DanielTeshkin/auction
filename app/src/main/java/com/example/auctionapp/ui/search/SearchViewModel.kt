@@ -29,15 +29,15 @@ private val repo: ProductRepository
     private val _progressLive = MutableLiveData<Boolean>()
     val progressLive: LiveData<Boolean> get() = _progressLive
 
-    private val _productFlow = MutableStateFlow<List<ProductModel>>(emptyList())
-    val productFlow: StateFlow<List<ProductModel>> get() = _productFlow
-    fun getProducts() {
+    private val _productLive = MutableLiveData<List<ProductModel>>()
+    val productLive: LiveData<List<ProductModel>> get() = _productLive
+    fun getProducts(q: String, sort: String) {
         viewModelScope.launch {
             _progressLive.postValue(true)
-            val result = repo.getProducts()
+            val result = repo.getProducts(q, sort)
             when(result) {
                 is BaseResponse.Success -> {
-                    _productFlow.emit(result.data)
+                    _productLive.postValue(result.data)
                 }
                 is BaseResponse.Error -> {
                     _failLive.postValue(result.message)

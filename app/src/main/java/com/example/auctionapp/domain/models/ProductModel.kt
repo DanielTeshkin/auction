@@ -11,7 +11,7 @@ data class ProductModel(
     val description: String?,
     val startDate: String?,
     val endDate: String?,
-    val price: Double,
+    val price: Long,
     val category: String?
 )
 

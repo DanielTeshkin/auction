@@ -14,10 +14,10 @@ import javax.inject.Inject
 class ProductRepositoryImpl @Inject constructor(
     val api: ApiService
 ) : ProductRepository {
-    override suspend fun getProducts(): BaseResponse<List<ProductModel>> {
+    override suspend fun getProducts(q: String, sort: String): BaseResponse<List<ProductModel>> {
         return withContext(Dispatchers.IO) {
             try {
-                val result = api.getProduct()
+                val result = api.getProduct(q, sort)
                 BaseResponse.Success(result.results.toModel())
             } catch (e: Exception) {
                 BaseResponse.Error(e.message.toString())
