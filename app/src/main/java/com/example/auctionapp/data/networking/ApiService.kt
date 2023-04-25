@@ -38,10 +38,6 @@ interface ApiService {
     @GET("cities/")
     suspend fun getCitiesList(): List<CitiesDTO>
 
-    @POST("token/refresh/")
-    fun getRefreshToken(
-        @Body info: GetRefreshDTO
-    ): retrofit2.Response<GetRefreshResponseDTO>
 
     @PATCH("user_info/")
     suspend fun userInfo(

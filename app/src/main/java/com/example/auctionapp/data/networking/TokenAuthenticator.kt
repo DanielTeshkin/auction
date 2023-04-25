@@ -3,6 +3,8 @@ package com.example.auctionapp.data.networking
 import android.util.Log
 import com.example.auctionapp.data.model.GetRefreshDTO
 import com.example.auctionapp.tools.PreferencesHelper
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.net.HttpURLConnection
@@ -10,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TokenAuthenticator @Inject constructor(private val apiService: ApiService, private val prefs: PreferencesHelper) : Interceptor {
+class TokenAuthenticator @Inject constructor(private val apiService: RefreshApiService, private val prefs: PreferencesHelper) : Interceptor {
     private var tokenRefreshed = false
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -18,7 +20,7 @@ class TokenAuthenticator @Inject constructor(private val apiService: ApiService,
         var response = chain.proceed(request)
 
         if (response.code == HttpURLConnection.HTTP_UNAUTHORIZED) {
-            synchronized(this) {
+            runBlocking {
                 if (!tokenRefreshed) {
                     tokenRefreshed = true
                     val refreshToken = prefs.mRefreshToken
@@ -36,7 +38,7 @@ class TokenAuthenticator @Inject constructor(private val apiService: ApiService,
                         Log.e("TokenAuthenticator", "Failed to refresh token")
                     }
                 } else {
-                    Thread.sleep(1000)
+                    delay(1000)
                     val newAccessToken = prefs.mAccessToken
                     val newRequest = request.newBuilder()
                         .header("Authorization", "Bearer $newAccessToken")
