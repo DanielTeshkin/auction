@@ -70,10 +70,10 @@ class ServiceModule {
                 HttpLoggingInterceptor()
                     .setLevel(HttpLoggingInterceptor.Level.BODY)
             )
+            .addInterceptor(TokenInterceptor(helper))
             .addInterceptor(
                 TokenAuthenticator(api, helper)
             )
-            .addInterceptor(TokenInterceptor(helper))
             .build()
     }
 

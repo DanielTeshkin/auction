@@ -59,6 +59,7 @@ class ConfirmCodeFragment : Fragment(R.layout.confirm_code_fragment) {
             etCode.doAfterTextChanged {
                 btnSignInNext.isEnabled = etCode.text.isNotEmpty()
             }
+            subtitle.text = getString(R.string.confirm_number_subtitle_text, args.number)
         }
     }
 

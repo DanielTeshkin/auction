@@ -1,12 +1,13 @@
 package com.example.auctionapp.ui.search.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+import com.example.auctionapp.domain.models.FavoriteProductModel
 import com.example.auctionapp.domain.models.ProductModel
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 
 class ProductAdapter(
     listener: ProductAdapterDelegate.OnItemClickListener
-) : AsyncListDifferDelegationAdapter<ProductModel>(ProductDiffUtilCallback()) {
+) : AsyncListDifferDelegationAdapter<FavoriteProductModel>(ProductDiffUtilCallback()) {
 
 
     init {
@@ -20,12 +21,12 @@ class ProductAdapter(
 
 
 
-    class ProductDiffUtilCallback : DiffUtil.ItemCallback<ProductModel>() {
-        override fun areItemsTheSame(oldItem: ProductModel, newItem: ProductModel): Boolean {
+    class ProductDiffUtilCallback : DiffUtil.ItemCallback<FavoriteProductModel>() {
+        override fun areItemsTheSame(oldItem: FavoriteProductModel, newItem: FavoriteProductModel): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: ProductModel, newItem: ProductModel): Boolean {
+        override fun areContentsTheSame(oldItem: FavoriteProductModel, newItem: FavoriteProductModel): Boolean {
             return oldItem == newItem
         }
     }

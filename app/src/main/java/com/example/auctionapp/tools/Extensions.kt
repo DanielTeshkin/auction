@@ -8,7 +8,11 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.example.auctionapp.R
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +25,10 @@ fun Fragment.toast(msg: String) {
 fun CharSequence?.isValidEmail() =
  !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
+fun Fragment.findTopNavController(): NavController {
+ val topLevelHost = requireActivity().supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment?
+ return topLevelHost?.navController ?: findNavController()
+}
 
 fun <T : ViewBinding> ViewGroup.inflate(
  inflateBinding: (

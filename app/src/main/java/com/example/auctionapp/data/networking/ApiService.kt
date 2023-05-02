@@ -44,6 +44,9 @@ interface ApiService {
         @Body info: UserInfoDTO
     ): UserInfoResponseDTO
 
+    @GET("user_info/")
+    suspend fun getUserInfo(): GetUserInfoDTO
+
     @GET("product/")
     suspend fun getProduct(
         @Query("q") text: String,

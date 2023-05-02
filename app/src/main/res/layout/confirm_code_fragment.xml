@@ -110,6 +110,7 @@
             app:layout_constraintTop_toBottomOf="@+id/subtitle" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/btn_resend_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

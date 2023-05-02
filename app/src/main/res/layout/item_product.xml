@@ -6,11 +6,14 @@
     <data>
         <variable
             name="product"
-            type="com.example.auctionapp.domain.models.ProductModel" />
+            type="com.example.auctionapp.domain.models.FavoriteProductModel" />
         <variable
             name="listener"
             type="com.example.auctionapp.ui.search.adapter.ProductAdapterDelegate.OnItemClickListener" />
 
+        <variable
+            name="listenerFavorite"
+            type="com.example.auctionapp.ui.search.adapter.ProductAdapterDelegate.OnItemClickListener" />
     </data>
 
     <LinearLayout
@@ -29,8 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_margin="8dp"
-            android:onClick="@{(view) -> listener.onItemClick(product)}"
             android:clickable="true"
+            android:onClick="@{(view) -> listenerFavorite.onFavoriteClick(product)}"
             android:elevation="30dp"
             android:focusable="true"
             app:cardCornerRadius="10dp">
@@ -54,14 +57,35 @@
             android:orientation="vertical"
             android:layout_marginHorizontal="16dp"
             android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/dateTV"
-                android:text="START-STOP"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/dateTV"
+                    android:text="START-STOP"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+                <CheckBox
+                    android:id="@+id/like"
+                    android:layout_width="25dp"
+                    android:onClick="@{(view) -> listenerFavorite.onFavoriteClick(product)}"
+                    android:layout_gravity="center"
+                    android:layout_height="22dp"
+                    android:background="@drawable/selector_like"
+                    android:button="@null"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/price"
@@ -83,6 +107,11 @@
 
         </LinearLayout>
 
-
+        <View
+            android:id="@+id/divider"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"/>
     </LinearLayout>
 </layout>

@@ -19,3 +19,11 @@ data class PhotosModel(
     val id: String,
     val file: String
 )
+
+fun ProductModel.toFavoriteModel(isFavorite: Boolean): FavoriteProductModel {
+    return FavoriteProductModel(
+        id, city, photos, title, description, startDate, endDate, price, category, isFavorite
+    )
+
+
+}

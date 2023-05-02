@@ -55,6 +55,27 @@ class DetailViewModel @Inject constructor(
         }
     }
 
+    fun deleteProductFromFavorite(info: ProductModel) {
+        viewModelScope.launch {
+            repo.deleteProduct(info)
+        }
+    }
+
+    private val _favoriteLive = MutableLiveData<List<ProductModel>>()
+    val favoriteLive: LiveData<List<ProductModel>> get() = _favoriteLive
+
+    fun getFavorite() {
+        viewModelScope.launch {
+            _favoriteLive.postValue(repo.getAllFavorite())
+        }
+    }
+
+    fun insertToDb(item: ProductModel) {
+        viewModelScope.launch {
+            repo.insertInFavorite(item)
+        }
+    }
+
     fun raisePrice(id: String, price: String, success: () -> Unit, fail: () -> Unit) {
         viewModelScope.launch {
             _progressLive.postValue(true)

@@ -9,4 +9,11 @@ interface DetailInfoRepository {
 
     suspend fun raisePrice(id: String, price: String): BaseResponse<String>
 
+    suspend fun getAllFavorite(): List<ProductModel>
+
+
+    suspend fun insertInFavorite(item: ProductModel)
+
+    suspend fun deleteProduct(info: ProductModel)
+
 }

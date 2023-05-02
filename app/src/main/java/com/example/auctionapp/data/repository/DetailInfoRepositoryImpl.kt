@@ -1,8 +1,9 @@
 package com.example.auctionapp.data.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import com.example.auctionapp.data.database.LotDao
+import com.example.auctionapp.data.entity.toEntity
+import com.example.auctionapp.data.entity.toModel
 import com.example.auctionapp.data.model.NewPriceDTO
 import com.example.auctionapp.data.model.toModel
 import com.example.auctionapp.data.networking.ApiService
@@ -14,15 +15,16 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DetailInfoRepositoryImpl @Inject constructor(
-    private val api: ApiService
-): DetailInfoRepository {
+    private val api: ApiService,
+    private val db: LotDao
+) : DetailInfoRepository {
 
     override suspend fun getDetailInfo(id: String): BaseResponse<ProductModel> {
         return withContext(Dispatchers.IO) {
             try {
                 val result = api.getProductById(id)
                 BaseResponse.Success(result.toModel())
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 BaseResponse.Error(e.message.toString())
             }
         }
@@ -39,5 +41,29 @@ class DetailInfoRepositoryImpl @Inject constructor(
             }
         }
 
+    }
+
+    override suspend fun getAllFavorite(): List<ProductModel> {
+        return db.getAllFavorites().toModel()
+    }
+
+    override suspend fun insertInFavorite(item: ProductModel) {
+        withContext(Dispatchers.IO) {
+            try {
+                db.insertProduct(item.toEntity())
+            } catch (e: java.lang.Exception) {
+                Log.d("TTT", e.message.toString())
+            }
+        }
+    }
+
+    override suspend fun deleteProduct(info: ProductModel) {
+        withContext(Dispatchers.IO) {
+            try {
+                db.deleteProduct(info.toEntity())
+            } catch (e: Exception) {
+                Log.d("TTT", e.message.toString())
+            }
+        }
     }
 }

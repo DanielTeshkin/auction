@@ -30,5 +30,14 @@ abstract class RepositoryModule {
     @Binds
     abstract fun provideDetailRepo(repo: DetailInfoRepositoryImpl): DetailInfoRepository
 
+    @Binds
+    abstract fun provideProfileRepo(repo: ProfileRepositoryImpl): ProfileRepository
+
+    @Binds
+    abstract fun provideFavoriteRepo(repo: FavoriteRepositoryImpl): FavoriteRepository
+
+    @Binds
+    abstract fun provideMainRepo(repo: MainRepositoryImpl): MainRepository
+
 
 }

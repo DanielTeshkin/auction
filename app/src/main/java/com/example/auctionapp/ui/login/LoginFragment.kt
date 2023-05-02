@@ -58,7 +58,7 @@ class LoginFragment: Fragment(R.layout.login_fragment) {
                 if (isItRegister) {
                     findNavController().navigate(R.id.action_loginFragment_to_completionFragment)
                 } else {
-                    findNavController().navigate(R.id.action_loginFragment_to_searchFragment)
+                    findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
                 }
             }
             failLive.observe(viewLifecycleOwner) {

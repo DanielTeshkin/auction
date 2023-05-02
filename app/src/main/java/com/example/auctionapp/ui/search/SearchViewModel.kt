@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.auctionapp.data.model.ProductDTO
+import com.example.auctionapp.data.use_case.GetAllAuctionUseCase
 import com.example.auctionapp.domain.models.BaseResponse
+import com.example.auctionapp.domain.models.FavoriteProductModel
 import com.example.auctionapp.domain.models.ProductModel
 import com.example.auctionapp.domain.repository.ProductRepository
 import com.example.auctionapp.tools.SingleLiveEvent
@@ -17,8 +19,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-private val repo: ProductRepository
-): ViewModel() {
+    private val repo: ProductRepository,
+    private val getAllProductUseCase: GetAllAuctionUseCase
+) : ViewModel() {
 
     private val _successLive = MutableLiveData<Unit>()
     val successLive: LiveData<Unit> get() = _successLive
@@ -29,21 +32,37 @@ private val repo: ProductRepository
     private val _progressLive = MutableLiveData<Boolean>()
     val progressLive: LiveData<Boolean> get() = _progressLive
 
-    private val _productLive = MutableLiveData<List<ProductModel>>()
-    val productLive: LiveData<List<ProductModel>> get() = _productLive
+    private val _productLive = MutableLiveData<List<FavoriteProductModel>>()
+    val productLive: LiveData<List<FavoriteProductModel>> get() = _productLive
     fun getProducts(q: String, sort: String) {
         viewModelScope.launch {
             _progressLive.postValue(true)
-            val result = repo.getProducts(q, sort)
-            when(result) {
-                is BaseResponse.Success -> {
-                    _productLive.postValue(result.data)
-                }
-                is BaseResponse.Error -> {
-                    _failLive.postValue(result.message)
-                }
-            }
+            val res = getAllProductUseCase.invoke(q,sort)
+            _productLive.postValue(res)
+//            val result = repo.getProducts(q, sort)
+//            when (result) {
+//                is BaseResponse.Success -> {
+//                    _productLive.postValue(result.data)
+//                }
+//                is BaseResponse.Error -> {
+//                    _failLive.postValue(result.message)
+//                }
+//            }
             _progressLive.postValue(false)
         }
     }
+
+    fun deleteProductFromFavorite(info: ProductModel) {
+        viewModelScope.launch {
+            repo.deleteProduct(info)
+        }
+    }
+
+    fun insertToDb(item: ProductModel) {
+        viewModelScope.launch {
+            repo.insertInFavorite(item)
+        }
+    }
+
+
 }

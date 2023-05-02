@@ -19,8 +19,9 @@ class TokenAuthenticator @Inject constructor(private val apiService: RefreshApiS
         val request = chain.request()
         var response = chain.proceed(request)
 
-        if (response.code == HttpURLConnection.HTTP_UNAUTHORIZED) {
+        if (response.code == 401) {
             runBlocking {
+                Log.d("REFRESH", "REFRESH START")
                 if (!tokenRefreshed) {
                     tokenRefreshed = true
                     val refreshToken = prefs.mRefreshToken

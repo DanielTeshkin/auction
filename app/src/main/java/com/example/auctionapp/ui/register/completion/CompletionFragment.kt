@@ -110,7 +110,7 @@ class CompletionFragment : Fragment(R.layout.completion_fragment) {
             }
             successLive.observe(viewLifecycleOwner) {
                 findNavController().navigate(
-                    R.id.action_completionFragment_to_searchFragment
+                    R.id.action_completionFragment_to_mainFragment
                 )
             }
 

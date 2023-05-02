@@ -1,10 +1,12 @@
 package com.example.auctionapp.ui.search
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -14,13 +16,19 @@ import autoCleared
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.auctionapp.R
 import com.example.auctionapp.databinding.SearchFragmentBinding
+import com.example.auctionapp.domain.models.FavoriteProductModel
 import com.example.auctionapp.domain.models.ProductModel
+import com.example.auctionapp.domain.models.toProductModel
+import com.example.auctionapp.tools.findTopNavController
 import com.example.auctionapp.tools.textChangedFlow
 import com.example.auctionapp.tools.toast
+import com.example.auctionapp.ui.MainViewModel
+import com.example.auctionapp.ui.main.MainFragmentDirections
 import com.example.auctionapp.ui.search.adapter.ProductAdapter
 import com.example.auctionapp.ui.search.adapter.ProductAdapterDelegate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -30,17 +38,18 @@ class SearchFragment : Fragment(R.layout.search_fragment),
 
     private val binding by viewBinding(SearchFragmentBinding::bind)
     private val viewModel by viewModels<SearchViewModel>()
-    private var productAdapter: ProductAdapter by autoCleared()
+    private var productAdapter by autoCleared<ProductAdapter>()
     private var searchJob: Job? = null
     private var sort: Boolean = false
     private var searchText: String = ""
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
-        handleData()
         search()
+        handleData()
+        initView()
     }
 
 
@@ -67,7 +76,6 @@ class SearchFragment : Fragment(R.layout.search_fragment),
                 .distinctUntilChanged()
                 .mapLatest { text ->
                     searchText = text
-                    Log.d("productsLive", "SEARCH")
                     val sortInfo = if (sort) "price" else ""
                     viewModel.getProducts(text, sortInfo)
                 }
@@ -78,8 +86,8 @@ class SearchFragment : Fragment(R.layout.search_fragment),
     private fun handleData() {
         with(viewModel) {
             productLive.observe(viewLifecycleOwner) { products ->
-                Log.d("productsLive", "LIVE")
                 productAdapter.items = products
+
             }
             progressLive.observe(viewLifecycleOwner) {
                 binding.progress.isGone = !it
@@ -87,15 +95,23 @@ class SearchFragment : Fragment(R.layout.search_fragment),
             failLive.observe(viewLifecycleOwner) {
                 toast(it)
             }
+            mainViewModel.liveFavoriteItems.observe(viewLifecycleOwner) {
+            }
         }
     }
 
 
-    override fun onItemClick(product: ProductModel) {
-        findNavController().navigate(
-            SearchFragmentDirections.actionSearchFragmentToDetailFragment(
+    override fun onItemClick(product: FavoriteProductModel) {
+        findTopNavController().navigate(
+            MainFragmentDirections.actionMainFragmentToDetailFragment(
                 id = product.id
             )
+        )
+    }
+
+    override fun onFavoriteClick(product: FavoriteProductModel) {
+        if (product.isFavorite) viewModel.deleteProductFromFavorite(product.toProductModel()) else viewModel.insertToDb(
+            product.toProductModel()
         )
     }
 
