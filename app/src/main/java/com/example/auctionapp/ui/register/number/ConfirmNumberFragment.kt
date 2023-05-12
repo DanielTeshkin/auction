@@ -17,6 +17,7 @@ import com.example.auctionapp.R
 import com.example.auctionapp.databinding.ConfirmNumberFragmentBinding
 import com.example.auctionapp.domain.models.ConfirmPhoneModel
 import com.example.auctionapp.tools.toast
+import com.example.auctionapp.ui.login.LoginFragment.Companion.FORGOT_PASS
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 import com.redmadrobot.inputmask.helper.AffinityCalculationStrategy
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,8 +29,18 @@ class ConfirmNumberFragment : Fragment(R.layout.confirm_number_fragment) {
 
     private val viewModel by viewModels<ConfirmNumberViewModel>()
     private val binding by viewBinding(ConfirmNumberFragmentBinding::bind)
+    private var forgotPass = false
 
     private var isMaskFilled = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.takeIf {
+            it.containsKey(FORGOT_PASS)
+        }?.let {
+            forgotPass = it.getBoolean(FORGOT_PASS)
+        }
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,16 +51,25 @@ class ConfirmNumberFragment : Fragment(R.layout.confirm_number_fragment) {
     }
 
     private fun handleView() {
-        binding.btnSignInNext.setOnClickListener {
-            viewModel.sendNumber(getString(R.string.number_format, binding.etNumber.text.toString().replace(Regex("[^\\d]"), "")))
+        if (forgotPass) {
+            binding.btnSignInNext.setOnClickListener {
+                viewModel.sendNumberForPassRecovery(getString(R.string.number_format, binding.etNumber.text.toString().replace(Regex("[^\\d]"), "")))
+            }
+            binding.title.text = "Восстановление пароля"
+        } else {
+            binding.btnSignInNext.setOnClickListener {
+                viewModel.sendNumber(getString(R.string.number_format, binding.etNumber.text.toString().replace(Regex("[^\\d]"), "")))
+            }
         }
+
     }
 
     private fun handleData() {
         viewModel.dataFlow.observe(viewLifecycleOwner) {
             findNavController().navigate(
                 ConfirmNumberFragmentDirections.actionConfirmNumberFragmentToConfirmCodeFragment(
-                    number = binding.etNumber.text.toString()
+                    number = binding.etNumber.text.toString(),
+                    isPassRecovery = forgotPass
                 )
             )
         }

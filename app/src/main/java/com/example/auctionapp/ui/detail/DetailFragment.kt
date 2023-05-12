@@ -80,9 +80,9 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
                     binding.name.text = info.title.toString()
                     binding.note.text = info.description.toString()
                     binding.date.text =
-                        getString(R.string.auction_start_text, formatDate(info.startDate!!))
+                        getString(R.string.auction_start_text, info.startDate!!)
                     binding.endDate.text =
-                        getString(R.string.auction_start_text, formatDate(info.endDate!!))
+                        getString(R.string.auction_start_text, info.endDate!!)
                     val isAfterToday = isDateAfterToday(startDate!!)
                     val isNotEnd = isDateAfterToday(endDate!!)
                     val r = !isAfterToday && isNotEnd

@@ -39,7 +39,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
                 binding.mail.text = getString(R.string.email, it.email)
                 binding.number.text = getString(R.string.phone, it.phone)
-                binding.address.text = getString(R.string.address, it.city.displayName)
+                binding.address.text = getString(R.string.address, it.city?.displayName)
             }
             failLive.observe(viewLifecycleOwner) {
                 toast(it)

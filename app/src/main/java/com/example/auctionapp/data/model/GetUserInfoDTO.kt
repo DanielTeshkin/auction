@@ -17,7 +17,7 @@ data class GetUserInfoDTO(
     @Json(name = "email")
     val email: String,
     @Json(name = "city")
-    val city: CityDTO
+    val city: CityDTO? = null
 )
 
 fun GetUserInfoDTO.toModel(): GetUserInfoModel {
@@ -27,6 +27,6 @@ fun GetUserInfoDTO.toModel(): GetUserInfoModel {
         lastName = lastName,
         patronymic = patronymic,
         email = email,
-        city = city.toModel()
+        city = city?.toModel()
     )
 }

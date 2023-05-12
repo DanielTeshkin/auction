@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -79,6 +80,12 @@ class LoginFragment: Fragment(R.layout.login_fragment) {
             number?.let {
                 etNumber.setText(it)
             }
+            btnForgotPassword.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_loginFragment_to_confirmNumberFragment,
+                    bundleOf(FORGOT_PASS to true)
+                )
+            }
             btnSignInNext.setOnClickListener {
                     viewModel.sendLogoPass(getString(R.string.number_format, binding.etNumber.text.toString().replace(Regex("[^\\d]"), "")), etPassword.text.toString(), isItRegister)
             }
@@ -128,6 +135,10 @@ class LoginFragment: Fragment(R.layout.login_fragment) {
             )
 
         binding.etNumber.hint = listener.placeholder()
+    }
+
+    companion object {
+        const val FORGOT_PASS = "FORGOT_PASS"
     }
 
     }

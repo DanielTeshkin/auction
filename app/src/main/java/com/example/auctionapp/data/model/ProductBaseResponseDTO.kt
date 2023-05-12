@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class ProductBaseResponseDTO(
+data class ProductBaseResponseDTO<out T : Any>(
     @Json(name = "count")
     val count: Int,
     @Json(name = "next")
@@ -12,5 +12,5 @@ data class ProductBaseResponseDTO(
     @Json(name = "previous")
     val previous: Int?,
     @Json(name = "results")
-    val results: List<ProductDTO>
+    val results: List<T>
 )

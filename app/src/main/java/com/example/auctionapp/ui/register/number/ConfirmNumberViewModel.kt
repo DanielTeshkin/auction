@@ -43,4 +43,20 @@ class ConfirmNumberViewModel @Inject constructor(
             _progressFlow.value = false
         }
     }
+
+    fun sendNumberForPassRecovery(info: String) {
+        viewModelScope.launch {
+            _progressFlow.value = true
+            val result = repo.confirmPass(info)
+            when (result) {
+                is BaseResponse.Success -> {
+                    _dataFlow.value = result.data as ConfirmCodeResponse
+                }
+                is BaseResponse.Error -> {
+                    _failFlow.value = result.message
+                }
+            }
+            _progressFlow.value = false
+        }
+    }
 }

@@ -6,6 +6,7 @@ import com.example.auctionapp.domain.models.BaseResponse
 import kotlinx.coroutines.flow.Flow
 import okhttp3.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -20,9 +21,37 @@ interface ApiService {
         @Body confirmCodeModel: ConfirmPhoneDTO
     ): ConfirmPhoneResponseDTO
 
+    @POST("confirm/pass")
+    suspend fun confirmPass(
+        @Body model: ConfirmPhoneDTO
+    ): ConfirmPhoneResponseDTO
+
+    @POST("product/elected/")
+    suspend fun addProductToFavorite(
+        @Body item: ProductToSetFavoriteDTO
+    )
+
+    @DELETE("/product/elected/{id}/")
+    suspend fun deleteElectedItem(
+        @Path("id") id: String
+    )
+
+    @GET("product/elected/")
+    suspend fun getFavoriteProducts(): ProductBaseResponseDTO<FavoriteProductDTO>
+
     @POST("confirm/phone/confirmed/")
     suspend fun checkCode(
         @Body info: SendCodeDTO
+    ): String
+
+    @POST("confirm/pass/confirmed/")
+    suspend fun checkCodePassRecovery(
+        @Body info: SendCodeDTO
+    ): String
+
+    @POST("reset_password/")
+    suspend fun resetPassword(
+        @Body info: ResetPassDTO
     ): String
 
     @POST("sign-in/")
@@ -50,8 +79,11 @@ interface ApiService {
     @GET("product/")
     suspend fun getProduct(
         @Query("q") text: String,
-        @Query("sort") sort: String
-    ): ProductBaseResponseDTO
+        @Query("sort") sort: String,
+        @Query("price_min") price_min: String,
+        @Query("price_max") price_max: String,
+        @Query("city") city: String
+    ): ProductBaseResponseDTO<ProductDTO>
 
     @GET("product/{id}")
     suspend fun getProductById(

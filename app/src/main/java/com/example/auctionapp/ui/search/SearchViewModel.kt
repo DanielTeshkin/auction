@@ -34,10 +34,18 @@ class SearchViewModel @Inject constructor(
 
     private val _productLive = MutableLiveData<List<FavoriteProductModel>>()
     val productLive: LiveData<List<FavoriteProductModel>> get() = _productLive
-    fun getProducts(q: String, sort: String) {
+    fun getProducts(
+        q: String,
+        sort: String,
+        price_min: String,
+        price_max: String,
+        city: String
+    ) {
         viewModelScope.launch {
             _progressLive.postValue(true)
-            val res = getAllProductUseCase.invoke(q,sort)
+            val res = getAllProductUseCase.invoke(
+                q, sort, price_min, price_max, city
+            )
             _productLive.postValue(res)
 //            val result = repo.getProducts(q, sort)
 //            when (result) {
@@ -60,7 +68,15 @@ class SearchViewModel @Inject constructor(
 
     fun insertToDb(item: ProductModel) {
         viewModelScope.launch {
-            repo.insertInFavorite(item)
+            val result = repo.insertInFavorite(item)
+            when (result) {
+                is BaseResponse.Success -> {
+
+                }
+                is BaseResponse.Error -> {
+
+                }
+            }
         }
     }
 

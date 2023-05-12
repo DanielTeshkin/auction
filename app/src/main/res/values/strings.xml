@@ -4,7 +4,7 @@
     <string name="main_btn_sign_up_text">Зарегистрироваться</string>
     <string name="MAPS_API_KEY">AIzaSyCrhv3ZZIrDjWkS95nQIg1KHQQGU_MUz4k</string>
     <string name="number_format">+7%s</string>
-    <string name="price">%s ₽</string>
+    <string name="price">Начальная цена: %s ₽</string>
     <string name="date_format">%s - %s</string>
     <string name="detail_date_format">%s - %s</string>
     <string name="fio_text">ФИО: %s %s %s</string>

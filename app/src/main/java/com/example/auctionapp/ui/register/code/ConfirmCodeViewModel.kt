@@ -39,4 +39,20 @@ class ConfirmCodeViewModel @Inject constructor(
             _progressLive.postValue(false)
         }
     }
+
+    fun sendCodeForPassRecovery(phone: String, code: String) {
+        viewModelScope.launch {
+            _progressLive.postValue(true)
+            val result = repo.sendCodeForPassRecovery(phone, code)
+            when (result) {
+                is BaseResponse.Success -> {
+                    _successLive.postValue(Unit)
+                }
+                is BaseResponse.Error -> {
+                    _failLive.postValue(result.message)
+                }
+            }
+            _progressLive.postValue(false)
+        }
+    }
 }

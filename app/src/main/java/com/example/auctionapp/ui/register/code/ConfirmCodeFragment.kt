@@ -53,8 +53,14 @@ class ConfirmCodeFragment : Fragment(R.layout.confirm_code_fragment) {
     private fun handleUI() {
         with(binding) {
             btnSignInNext.setOnClickListener {
-                viewModel.sendCode(getString(R.string.number_format,
-                    args.number.replace(Regex("[^\\d]"), "")), etCode.text.toString())
+                if (args.isPassRecovery) {
+                    viewModel.sendCodeForPassRecovery(getString(R.string.number_format,
+                        args.number.replace(Regex("[^\\d]"), "")), etCode.text.toString())
+                } else {
+                    viewModel.sendCode(getString(R.string.number_format,
+                        args.number.replace(Regex("[^\\d]"), "")), etCode.text.toString())
+
+                }
             }
             etCode.doAfterTextChanged {
                 btnSignInNext.isEnabled = etCode.text.isNotEmpty()

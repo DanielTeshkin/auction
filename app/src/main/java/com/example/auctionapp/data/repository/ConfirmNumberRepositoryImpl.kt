@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 class ConfirmNumberRepositoryImpl @Inject constructor(
     private val api: ApiService
-): ConfirmNumberRepository {
+) : ConfirmNumberRepository {
     override suspend fun sendNumber(info: String): BaseResponse<Any> {
         return withContext(Dispatchers.IO) {
             try {
@@ -26,5 +26,19 @@ class ConfirmNumberRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun confirmPass(info: String): BaseResponse<Any> {
+        return withContext(Dispatchers.IO) {
+            try {
+                api.confirmPass(ConfirmPhoneDTO(info))
+                BaseResponse.Success<String>("Успешно")
+            } catch (e: java.lang.Exception) {
+                BaseResponse.Error(e.message.toString())
+
+            }
+
+        }
+    }
+}
 
 }

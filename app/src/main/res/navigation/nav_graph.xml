@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_loginFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_confirmNumberFragment"
+            app:destination="@id/confirmNumberFragment" />
     </fragment>
     <fragment
         android:id="@+id/passportRecoveryFragment"
@@ -58,6 +61,9 @@
         <action
             android:id="@+id/action_confirmCodeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <argument
+            android:name="IsPassRecovery"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/completionFragment"

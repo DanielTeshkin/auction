@@ -50,6 +50,8 @@ class SearchFragment : Fragment(R.layout.search_fragment),
         search()
         handleData()
         initView()
+        Log.d("FFF", mainViewModel.maxPriceLiveData.value.toString())
+        Log.d("FFF", mainViewModel.minPriceLiveData.value.toString())
     }
 
 
@@ -62,9 +64,12 @@ class SearchFragment : Fragment(R.layout.search_fragment),
             setHasFixedSize(false)
         }
         binding.sort.setOnClickListener {
+            findTopNavController().navigate(
+                R.id.filterFragment
+            )
             sort = !sort
             val sortInfo = if (sort) "price" else ""
-            viewModel.getProducts(searchText, sortInfo)
+            viewModel.getProducts(searchText, sortInfo, "", "", "")
         }
     }
 
@@ -77,7 +82,7 @@ class SearchFragment : Fragment(R.layout.search_fragment),
                 .mapLatest { text ->
                     searchText = text
                     val sortInfo = if (sort) "price" else ""
-                    viewModel.getProducts(text, sortInfo)
+                    viewModel.getProducts(text, sortInfo,"", "", "")
                 }
                 .collect()
         }
@@ -96,6 +101,12 @@ class SearchFragment : Fragment(R.layout.search_fragment),
                 toast(it)
             }
             mainViewModel.liveFavoriteItems.observe(viewLifecycleOwner) {
+            }
+            mainViewModel.maxPriceLiveData.observe(viewLifecycleOwner) {
+                Log.d("TTT", "max $it")
+            }
+            mainViewModel.minPriceLiveData.observe(viewLifecycleOwner) {
+                Log.d("TTT", "min $it")
             }
         }
     }

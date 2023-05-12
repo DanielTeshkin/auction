@@ -1,0 +1,28 @@
+package com.example.auctionapp.domain.models
+
+import com.example.auctionapp.data.model.GetUserInfoDTO
+import com.example.auctionapp.data.model.ProductDTO
+import com.squareup.moshi.Json
+import okio.`-DeprecatedOkio`
+
+data class ElectedProductModel(
+    val id: String,
+    val userInfo: GetUserInfoModel,
+    val notes: String? = null,
+    val product: ProductModel
+)
+
+fun ElectedProductModel.toFavoriteModel(isFavorite: Boolean) : FavoriteProductModel {
+    return FavoriteProductModel(
+        id = id,
+        city = product.city,
+        photos = product.photos,
+        title = product.title,
+        description = product.description,
+        startDate = product.startDate,
+        endDate = product.endDate,
+        price = product.price,
+        category = product.category,
+        isFavorite = isFavorite
+    )
+}

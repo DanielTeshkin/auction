@@ -63,17 +63,20 @@ class ProductAdapterDelegate(
                 .load(product.photos?.first()?.file)
                 .placeholder(R.drawable.no_image)
                 .into(avatar)
-            dateTV.text = binding.root.context.getString(
-                R.string.date_format,
-                formatDate(product.startDate!!),
-                formatDate(product.endDate!!)
+            date.text = binding.root.context.getString(
+                R.string.auction_start_text,
+                product.startDate!!
+            )
+            endDate.text = binding.root.context.getString(
+                R.string.end_date_text,
+                product.endDate!!
             )
         }
 
         private fun formatDate(dateTimeStr: String): String {
             val formatter = DateTimeFormatter.ISO_DATE_TIME
             val dateTime = LocalDateTime.parse(dateTimeStr, formatter)
-            return dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+            return dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
         }
 
     }

@@ -21,4 +21,19 @@ class CodeRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun sendCodeForPassRecovery(
+        phone: String,
+        code: String
+    ): BaseResponse<String> {
+        return withContext(Dispatchers.IO) {
+            try {
+                api.checkCodePassRecovery(SendCodeDTO(phone, code))
+                BaseResponse.Success("Success")
+            } catch (e: java.lang.Exception) {
+                BaseResponse.Error(e.message.toString())
+            }
+        }
+
+    }
 }

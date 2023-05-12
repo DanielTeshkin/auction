@@ -6,5 +6,5 @@ data class GetUserInfoModel(
     val lastName: String?,
     val patronymic: String?,
     val email: String,
-    val city: City
+    val city: City?
 )

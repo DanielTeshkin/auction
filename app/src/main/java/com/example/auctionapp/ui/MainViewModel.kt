@@ -18,6 +18,12 @@ private val repo: MainRepository
     private val _liveFavoriteItems = MutableLiveData<List<ProductModel>>()
     val liveFavoriteItems: LiveData<List<ProductModel>> get() = _liveFavoriteItems
 
+    private val _minPriceLiveData = MutableLiveData<String>()
+    val minPriceLiveData: LiveData<String> get() = _minPriceLiveData
+
+    private val _maxPriceLiveData = MutableLiveData<String>()
+    val maxPriceLiveData: LiveData<String> get() = _maxPriceLiveData
+
     fun getAllFavorite(result: () -> Unit) {
         viewModelScope.launch {
             kotlin.runCatching {
@@ -29,6 +35,14 @@ private val repo: MainRepository
                 result()
             }
         }
+    }
+
+    fun setMinPrice(price: String?) {
+        _minPriceLiveData.postValue(price ?: "")
+    }
+
+    fun setMaxPrice(price: String?) {
+        _maxPriceLiveData.postValue(price ?: "")
     }
 
 }
