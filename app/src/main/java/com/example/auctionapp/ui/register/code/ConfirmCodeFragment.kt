@@ -26,7 +26,6 @@ class ConfirmCodeFragment : Fragment(R.layout.confirm_code_fragment) {
     private val binding by viewBinding(ConfirmCodeFragmentBinding::bind)
     private val viewModel by viewModels<ConfirmCodeViewModel>()
     private val args by navArgs<ConfirmCodeFragmentArgs>()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleUI()
@@ -42,10 +41,22 @@ class ConfirmCodeFragment : Fragment(R.layout.confirm_code_fragment) {
                 toast(it)
             }
             successLive.observe(viewLifecycleOwner) {
-                findNavController().navigate(
-                    R.id.action_confirmCodeFragment_to_loginFragment,
-                    bundleOf(IS_IT_REGISTER to true, PHONE_NUMBER to args.number.replace(Regex("[^\\d]"), ""))
-                )
+                if (args.IsPassRecovery) {
+                    findNavController().navigate(
+                        ConfirmCodeFragmentDirections.actionConfirmCodeFragmentToPasswordRecoveryFragment(
+                            args.number.replace(Regex("[^\\d]"), "")
+                        )
+                    )
+                } else {
+                    findNavController().navigate(
+                        R.id.action_confirmCodeFragment_to_loginFragment,
+                        bundleOf(
+                            IS_IT_REGISTER to true,
+                            PHONE_NUMBER to args.number.replace(Regex("[^\\d]"), "")
+                        )
+                    )
+                }
+
             }
         }
     }
@@ -53,13 +64,20 @@ class ConfirmCodeFragment : Fragment(R.layout.confirm_code_fragment) {
     private fun handleUI() {
         with(binding) {
             btnSignInNext.setOnClickListener {
-                if (args.isPassRecovery) {
-                    viewModel.sendCodeForPassRecovery(getString(R.string.number_format,
-                        args.number.replace(Regex("[^\\d]"), "")), etCode.text.toString())
+                if (args.IsPassRecovery) {
+                    viewModel.sendCodeForPassRecovery(
+                        getString(
+                            R.string.number_format,
+                            args.number.replace(Regex("[^\\d]"), "")
+                        ), etCode.text.toString()
+                    )
                 } else {
-                    viewModel.sendCode(getString(R.string.number_format,
-                        args.number.replace(Regex("[^\\d]"), "")), etCode.text.toString())
-
+                    viewModel.sendCode(
+                        getString(
+                            R.string.number_format,
+                            args.number.replace(Regex("[^\\d]"), "")
+                        ), etCode.text.toString()
+                    )
                 }
             }
             etCode.doAfterTextChanged {

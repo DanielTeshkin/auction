@@ -39,5 +39,8 @@ abstract class RepositoryModule {
     @Binds
     abstract fun provideMainRepo(repo: MainRepositoryImpl): MainRepository
 
+    @Binds
+    abstract fun providePassRecoveryRepo(repo: RecoveryPasswordRepositoryImpl): RecoveryPasswordRepository
+
 
 }

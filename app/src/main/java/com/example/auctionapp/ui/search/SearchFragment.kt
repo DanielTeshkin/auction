@@ -65,11 +65,17 @@ class SearchFragment : Fragment(R.layout.search_fragment),
         }
         binding.sort.setOnClickListener {
             findTopNavController().navigate(
-                R.id.filterFragment
+                R.id.action_mainFragment_to_filterFragment
             )
             sort = !sort
-            val sortInfo = if (sort) "price" else ""
-            viewModel.getProducts(searchText, sortInfo, "", "", "")
+//            val sortInfo = if (sort) "price" else ""
+//            viewModel.getProducts(
+//                searchText,
+//                sortInfo,
+//                mainViewModel.minPriceLiveData.value ?: "",
+//                mainViewModel.maxPriceLiveData.value ?: "",
+//                mainViewModel.selectedCityLiveData.value ?: ""
+//            )
         }
     }
 
@@ -82,7 +88,11 @@ class SearchFragment : Fragment(R.layout.search_fragment),
                 .mapLatest { text ->
                     searchText = text
                     val sortInfo = if (sort) "price" else ""
-                    viewModel.getProducts(text, sortInfo,"", "", "")
+                    viewModel.getProducts(
+                        text, "", mainViewModel.minPriceLiveData.value ?: "",
+                        mainViewModel.maxPriceLiveData.value ?: "",
+                        mainViewModel.selectedCityLiveData.value ?: ""
+                    )
                 }
                 .collect()
         }
@@ -113,11 +123,20 @@ class SearchFragment : Fragment(R.layout.search_fragment),
 
 
     override fun onItemClick(product: FavoriteProductModel) {
+//        if (findNavController().graph.id == R.navigation.nav_graph) {
+//            findNavController().navigate(
+//                MainFragmentDirections.actionMainFragmentToDetailFragment(
+//                    id = product.id
+//                )
+//            )
+//        } else {
         findTopNavController().navigate(
             MainFragmentDirections.actionMainFragmentToDetailFragment(
                 id = product.id
             )
         )
+//        }
+
     }
 
     override fun onFavoriteClick(product: FavoriteProductModel) {

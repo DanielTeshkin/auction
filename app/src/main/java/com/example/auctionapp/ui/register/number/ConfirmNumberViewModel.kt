@@ -20,8 +20,8 @@ class ConfirmNumberViewModel @Inject constructor(
     private val repo: ConfirmNumberRepository
 ) : ViewModel() {
 
-    private val _dataFlow = MutableLiveData<ConfirmCodeResponse>()
-    val dataFlow: LiveData<ConfirmCodeResponse> = _dataFlow
+    private val _dataFlow = MutableLiveData<Unit>()
+    val dataFlow: LiveData<Unit> = _dataFlow
 
     private val _failFlow = SingleLiveEvent<String>()
     val failFlow: LiveData<String> = _failFlow
@@ -34,7 +34,7 @@ class ConfirmNumberViewModel @Inject constructor(
             val result = repo.sendNumber(number)
             when (result) {
                 is BaseResponse.Success -> {
-                    _dataFlow.value = result.data as ConfirmCodeResponse
+                    _dataFlow.value = Unit
                 }
                 is BaseResponse.Error -> {
                     _failFlow.value = result.message
@@ -50,7 +50,7 @@ class ConfirmNumberViewModel @Inject constructor(
             val result = repo.confirmPass(info)
             when (result) {
                 is BaseResponse.Success -> {
-                    _dataFlow.value = result.data as ConfirmCodeResponse
+                    _dataFlow.value = Unit
                 }
                 is BaseResponse.Error -> {
                     _failFlow.value = result.message

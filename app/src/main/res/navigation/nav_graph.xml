@@ -64,6 +64,9 @@
         <argument
             android:name="IsPassRecovery"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_confirmCodeFragment_to_passwordRecoveryFragment"
+            app:destination="@id/passwordRecoveryFragment" />
     </fragment>
     <fragment
         android:id="@+id/completionFragment"
@@ -92,5 +95,19 @@
         <action
             android:id="@+id/action_mainFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordRecoveryFragment"
+        android:name="com.example.auctionapp.ui.login.pass_recovery.PasswordRecoveryFragment"
+        android:label="PasswordRecoveryFragment" >
+        <argument
+            android:name="number"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_passwordRecoveryFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 </navigation>

@@ -19,12 +19,12 @@ interface ApiService {
     @POST("confirm/phone/")
     suspend fun confirmCode(
         @Body confirmCodeModel: ConfirmPhoneDTO
-    ): ConfirmPhoneResponseDTO
+    )
 
-    @POST("confirm/pass")
+    @POST("confirm/pass/")
     suspend fun confirmPass(
         @Body model: ConfirmPhoneDTO
-    ): ConfirmPhoneResponseDTO
+    )
 
     @POST("product/elected/")
     suspend fun addProductToFavorite(
@@ -39,6 +39,7 @@ interface ApiService {
     @GET("product/elected/")
     suspend fun getFavoriteProducts(): ProductBaseResponseDTO<FavoriteProductDTO>
 
+
     @POST("confirm/phone/confirmed/")
     suspend fun checkCode(
         @Body info: SendCodeDTO
@@ -49,10 +50,10 @@ interface ApiService {
         @Body info: SendCodeDTO
     ): String
 
-    @POST("reset_password/")
+    @POST("reset_password")
     suspend fun resetPassword(
         @Body info: ResetPassDTO
-    ): String
+    ): SignUpResponseDTO
 
     @POST("sign-in/")
     suspend fun signIn(

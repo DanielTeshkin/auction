@@ -69,7 +69,7 @@ class ConfirmNumberFragment : Fragment(R.layout.confirm_number_fragment) {
             findNavController().navigate(
                 ConfirmNumberFragmentDirections.actionConfirmNumberFragmentToConfirmCodeFragment(
                     number = binding.etNumber.text.toString(),
-                    isPassRecovery = forgotPass
+                    IsPassRecovery = forgotPass
                 )
             )
         }

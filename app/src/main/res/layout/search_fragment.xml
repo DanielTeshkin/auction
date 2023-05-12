@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:drawablePadding="10dp"
-            android:text="@string/search_fragment_filtering_by_price"
+            android:text="@string/filter"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:drawableLeftCompat="@drawable/ic_search_btn_filters" />

@@ -16,9 +16,12 @@
 
     <!-- Login Fragment -->
     <string name="login_title_text">Вход в аккаунт</string>
+    <string name="recovery_pass">Новый пароль</string>
     <string name="login_subtitle_text">Чтобы войти в Ваш аккаунт, введите пароль.</string>
     <string name="login_et_number_hint">Номер телефона</string>
     <string name="login_et_password_hint">Пароль</string>
+    <string name="new_pass">Новый пароль</string>
+    <string name="confirm_new_pass">Подтвердите новый пароль</string>
     <string name="login_btn_sign_in_next_text">Продолжить</string>
     <string name="login_btn_forgot_password_text">Забыл пароль</string>
     <string name="create_pass">Придумайте пароль</string>
@@ -79,6 +82,7 @@
     <string name="search_fragment_filtering_by_novelty">По новизне</string>
     <string name="search_fragment_filtering_by_price">По возрастанию цены</string>
     <string name="search_fragment_search">Поиск</string>
+    <string name="filter">Отфильтровать</string>
 
     <!-- Search Filter Fragment -->
     <string name="search_filter_fragment_in_stock">В наличии</string>

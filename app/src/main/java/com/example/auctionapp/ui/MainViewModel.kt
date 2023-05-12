@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.auctionapp.domain.models.City
 import com.example.auctionapp.domain.models.ProductModel
 import com.example.auctionapp.domain.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +25,9 @@ private val repo: MainRepository
     private val _maxPriceLiveData = MutableLiveData<String>()
     val maxPriceLiveData: LiveData<String> get() = _maxPriceLiveData
 
+    private val _selectedCityLiveData = MutableLiveData<String>()
+    val selectedCityLiveData: LiveData<String> get() = _selectedCityLiveData
+
     fun getAllFavorite(result: () -> Unit) {
         viewModelScope.launch {
             kotlin.runCatching {
@@ -39,6 +43,10 @@ private val repo: MainRepository
 
     fun setMinPrice(price: String?) {
         _minPriceLiveData.postValue(price ?: "")
+    }
+
+    fun setCity(cityId: String) {
+        _selectedCityLiveData.postValue(cityId)
     }
 
     fun setMaxPrice(price: String?) {

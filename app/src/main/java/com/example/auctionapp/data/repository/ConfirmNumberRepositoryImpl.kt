@@ -19,8 +19,8 @@ class ConfirmNumberRepositoryImpl @Inject constructor(
     override suspend fun sendNumber(info: String): BaseResponse<Any> {
         return withContext(Dispatchers.IO) {
             try {
-                val result = api.confirmCode(ConfirmPhoneDTO(info)).toModel()
-                BaseResponse.Success(result)
+                api.confirmCode(ConfirmPhoneDTO(info))
+                BaseResponse.Success(Unit)
             } catch (e: Exception) {
                 BaseResponse.Error(e.message.toString())
             }
@@ -31,7 +31,7 @@ class ConfirmNumberRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             try {
                 api.confirmPass(ConfirmPhoneDTO(info))
-                BaseResponse.Success<String>("Успешно")
+                BaseResponse.Success("Успешно")
             } catch (e: java.lang.Exception) {
                 BaseResponse.Error(e.message.toString())
 
@@ -41,4 +41,3 @@ class ConfirmNumberRepositoryImpl @Inject constructor(
     }
 }
 
-}

@@ -94,10 +94,8 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
     }
 
     private fun isDateAfterToday(dateTimeStr: String): Boolean {
-        val dateTime = LocalDateTime.ofInstant(
-            Instant.from(DateTimeFormatter.ISO_INSTANT.parse(dateTimeStr)),
-            ZoneId.systemDefault()
-        )
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+        val dateTime = LocalDateTime.parse(dateTimeStr, formatter)
         val now = LocalDateTime.now()
         return dateTime.isAfter(now)
     }
