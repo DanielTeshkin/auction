@@ -6,6 +6,12 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ProductDTO(
+    @Json(name = "rate_hike_price")
+    val rateHikePrice: String,
+    @Json(name = "end_registration_date")
+    val endRegistration: String,
+    @Json(name = "start_registration_date")
+    val startRegistration: String,
     @Json(name = "id")
     val id: String,
     @Json(name = "city")
@@ -40,7 +46,10 @@ fun List<ProductDTO>.toModel(): List<ProductModel> {
                 startDate = it.startDate,
                 endDate = it.endDate,
                 price = it.price,
-                category = it.category
+                category = it.category,
+                startRegistration = it.startRegistration,
+                endRegistration = it.endRegistration,
+                rateHikePrice = it.rateHikePrice
             )
         )
     }
@@ -57,6 +66,9 @@ fun ProductDTO.toModel(): ProductModel {
         startDate = startDate,
         endDate = endDate,
         price = price,
-        category = category
+        category = category,
+        startRegistration = startRegistration,
+        endRegistration = endRegistration,
+        rateHikePrice = rateHikePrice
     )
 }

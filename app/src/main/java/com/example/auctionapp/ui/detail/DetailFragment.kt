@@ -17,6 +17,10 @@ import com.example.auctionapp.R
 import com.example.auctionapp.databinding.DetailProductItemBinding
 import com.example.auctionapp.domain.models.PhotosModel
 import com.example.auctionapp.domain.models.ProductModel
+import com.example.auctionapp.domain.models.RacePriceModel
+import com.example.auctionapp.tools.getOnlyTime
+import com.example.auctionapp.tools.isDateAfterToday
+import com.example.auctionapp.tools.isDateBeforeToday
 import com.example.auctionapp.tools.toast
 import com.example.auctionapp.ui.detail.adapter.PhotosAdapter
 import com.example.auctionapp.ui.detail.adapter.PhotosAdapterDelegate
@@ -41,10 +45,14 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
     private var startDate: String? = null
     private var endDate: String? = null
     private var item: ProductModel? = null
+    private var currentPrice = 0L
+    private var minStep = 0L
+    private var minPrice = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getFavorite()
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +65,9 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
         binding.like.setOnClickListener {
             val check = viewModel.favoriteLive.value?.contains(item) == true
             Log.d("TTT", check.toString())
-            if (viewModel.favoriteLive.value?.contains(item) == true) viewModel.deleteProductFromFavorite(item!!) else viewModel.insertToDb(
+            if (viewModel.favoriteLive.value?.contains(item) == true) viewModel.deleteProductFromFavorite(
+                item!!
+            ) else viewModel.insertToDb(
                 item!!
             )
         }
@@ -69,10 +79,26 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
             progressLive.observe(viewLifecycleOwner) {
                 binding.progress.isGone = !it
             }
+            failLive.observe(viewLifecycleOwner) {
+                toast("Что то пошло не так")
+            }
+            successLive.observe(viewLifecycleOwner) {
+                toast("Сумма успешно повышена")
+                val imm =
+                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view?.windowToken, 0)
+            }
             infoFlow.collect { info ->
                 if (info != null) {
+                    binding.downPriceBtn.text = getString(R.string.down_price, info.rateHikePrice.toDouble().toInt().toString())
+                    binding.raicePriceBtn.text = getString(R.string.raice_price, info.rateHikePrice.toDouble().toInt().toString())
+                    binding.currentPrice.text = getString(R.string.current_price, info.price.toString())
+                    minPrice = info.price
+                    currentPrice = info.price
+                    minStep = info.rateHikePrice.toDouble().toLong()
                     item = info
                     binding.like.isChecked = favoriteLive.value?.contains(info) == true
+                    binding.minStep.text = getString(R.string.min_step, info.rateHikePrice)
                     photosAdapter.items = info.photos
                     binding.price.text = getString(R.string.price, info.price.toString())
                     startDate = info.startDate
@@ -80,67 +106,83 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
                     binding.name.text = info.title.toString()
                     binding.note.text = info.description.toString()
                     binding.date.text =
-                        getString(R.string.auction_start_text, info.startDate!!)
-                    binding.endDate.text =
-                        getString(R.string.auction_start_text, info.endDate!!)
-                    val isAfterToday = isDateAfterToday(startDate!!)
-                    val isNotEnd = isDateAfterToday(endDate!!)
-                    val r = !isAfterToday && isNotEnd
-                    binding.call.isEnabled = r
+                        getString(
+                            R.string.auction_start_text,
+                            info.startDate!!,
+                            info.endDate!!.getOnlyTime()
+                        )
+//                    binding.endDate.text =
+//                        getString(R.string.end_date_text, info.endDate!!)
+                    binding.registerTimeStart.text =
+                        getString(R.string.register_time_start, info.startRegistration)
+                    binding.registerTimeEnd.text =
+                        getString(R.string.register_time_end, info.endRegistration)
+                    val isAfterToday = startDate!!.isDateBeforeToday()
+                    val isNotEnd = endDate!!.isDateAfterToday()
+                    Log.d("TTT", isAfterToday.toString())
+                    Log.d("TTT", isNotEnd.toString())
+                    val r = isAfterToday && isNotEnd
+                    val rd =
+                        info.startRegistration.isDateBeforeToday() && info.endRegistration.isDateAfterToday() && !args.isItBid
+                    binding.call.isGone = !r
+                    binding.llRaicePrice.isGone = !r
+                    binding.apply.isGone = !rd
+                    binding.apply.setOnClickListener {
+                        viewModel.createBid(info.id)
+                    }
+                    binding.call.setOnClickListener {
+                        viewModel.racePrice(id = info.id, info = RacePriceModel(currentPrice.toString()))
+                    }
                 }
             }
         }
 
     }
 
-    private fun isDateAfterToday(dateTimeStr: String): Boolean {
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
-        val dateTime = LocalDateTime.parse(dateTimeStr, formatter)
-        val now = LocalDateTime.now()
-        return dateTime.isAfter(now)
-    }
-
-    private fun formatDate(dateTimeStr: String): String {
-        val formatter = DateTimeFormatter.ISO_DATE_TIME
-        val dateTime = LocalDateTime.parse(dateTimeStr, formatter)
-        return dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
-    }
-
     private fun initView() {
         photosAdapter = PhotosAdapter(this)
         binding.viewPager.adapter = photosAdapter
 
-
         binding.call.setOnClickListener {
-            binding.newPriceET.isGone = isRaceOpen
-            binding.raise.isGone = isRaceOpen
-            binding.call.isGone = !isRaceOpen
-            isRaceOpen = !isRaceOpen
+//            binding.newPriceET.isGone = isRaceOpen
+//            binding.raise.isGone = isRaceOpen
+//            binding.call.isGone = !isRaceOpen
+//            isRaceOpen = !isRaceOpen
+        }
+        binding.raicePriceBtn.setOnClickListener {
+            currentPrice += minStep
+            binding.currentPrice.text = getString(R.string.current_price, currentPrice.toString())
+            binding.call.isEnabled = currentPrice > minPrice
+            binding.downPriceBtn.isEnabled = currentPrice > minPrice
+        }
+        binding.downPriceBtn.setOnClickListener {
+            currentPrice -= minStep
+            binding.currentPrice.text = getString(R.string.current_price, currentPrice.toString())
+            binding.call.isEnabled = currentPrice > minPrice
+            binding.downPriceBtn.isEnabled = currentPrice > minPrice
         }
         binding.raise.setOnClickListener {
-            if (binding.newPriceET.text.toString()
-                    .toInt() > (viewModel.infoFlow.value?.price?.toInt() ?: 0)
-            ) {
-                viewModel.raisePrice(args.id, binding.newPriceET.text.toString(), {
-                    binding.newPriceET.isGone = isRaceOpen
-                    binding.raise.isGone = isRaceOpen
-                    binding.call.isGone = !isRaceOpen
-                    toast("Сумма успешно повышена")
-                    val imm =
-                        requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(view?.windowToken, 0)
-                    viewModel.getDetailInfo(args.id)
-                    isRaceOpen = !isRaceOpen
-                }, {
-                    toast("Что то пошло не так")
-                })
-            } else {
-                toast("Новая сумма должна быть выше предыдущей!")
-            }
+//            if (binding.newPriceET.text.toString()
+//                    .toInt() > (viewModel.infoFlow.value?.price?.toInt() ?: 0)
+//            ) {
+//                viewModel.raisePrice(args.id, currentPrice.toString(), {
+//                    binding.newPriceET.isGone = isRaceOpen
+//                    binding.raise.isGone = isRaceOpen
+//                    binding.call.isGone = !isRaceOpen
+//                    toast("Сумма успешно повышена")
 
-
+//                    viewModel.getDetailInfo(args.id)
+//                    isRaceOpen = !isRaceOpen
+//                }, {
+//                })
+//            } else {
+//                toast("Новая сумма должна быть выше предыдущей!")
+//            }
         }
-
+        binding.status.isGone = !args.isItBid
+     args.status?.let {
+         binding.status.text = getString(R.string.status, it)
+     }
     }
 
     override fun onItemClick(photo: PhotosModel) {

@@ -1,5 +1,6 @@
 package com.example.auctionapp.data.repository
 
+import android.util.Log
 import com.example.auctionapp.data.model.ResetPassDTO
 import com.example.auctionapp.data.networking.ApiService
 import com.example.auctionapp.domain.models.BaseResponse
@@ -20,9 +21,9 @@ class RecoveryPasswordRepositoryImpl @Inject constructor(
     ): BaseResponse<Unit> {
         return withContext(Dispatchers.IO) {
             try {
-                val res = api.resetPassword(ResetPassDTO(userName, password1, password2))
-                prefs.mAccessToken = res.accessToken
-                prefs.mRefreshToken = res.refreshToken
+                api.resetPassword(ResetPassDTO(userName, password1, password2))
+//                prefs.mAccessToken = res.accessToken
+//                prefs.mRefreshToken = res.refreshToken
                 BaseResponse.Success(Unit)
             } catch (e: java.lang.Exception) {
                 BaseResponse.Error(e.message.toString())

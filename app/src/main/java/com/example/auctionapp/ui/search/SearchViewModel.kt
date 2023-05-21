@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.auctionapp.data.model.ProductDTO
+import com.example.auctionapp.data.use_case.CreateBidUseCase
 import com.example.auctionapp.data.use_case.GetAllAuctionUseCase
 import com.example.auctionapp.domain.models.BaseResponse
+import com.example.auctionapp.domain.models.BidCreateRequestModel
 import com.example.auctionapp.domain.models.FavoriteProductModel
 import com.example.auctionapp.domain.models.ProductModel
 import com.example.auctionapp.domain.repository.ProductRepository
@@ -20,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val repo: ProductRepository,
-    private val getAllProductUseCase: GetAllAuctionUseCase
+    private val getAllProductUseCase: GetAllAuctionUseCase,
+    private val createBidUseCase: CreateBidUseCase
 ) : ViewModel() {
 
     private val _successLive = MutableLiveData<Unit>()
@@ -34,6 +37,22 @@ class SearchViewModel @Inject constructor(
 
     private val _productLive = MutableLiveData<List<FavoriteProductModel>>()
     val productLive: LiveData<List<FavoriteProductModel>> get() = _productLive
+
+    fun createBid(id: String) {
+        viewModelScope.launch {
+            _progressLive.postValue(true)
+            val res = createBidUseCase.execute(BidCreateRequestModel(id))
+            when(res) {
+                is BaseResponse.Success -> {
+                    _successLive.postValue(Unit)
+                }
+                is BaseResponse.Error -> {
+                    _failLive.postValue(res.message)
+                }
+            }
+            _progressLive.postValue(false)
+        }
+    }
     fun getProducts(
         q: String,
         sort: String,

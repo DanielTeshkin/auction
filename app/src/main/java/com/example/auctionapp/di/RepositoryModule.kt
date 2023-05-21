@@ -16,6 +16,9 @@ abstract class RepositoryModule {
     abstract fun provideConfirmNumberRepo(repo: ConfirmNumberRepositoryImpl): ConfirmNumberRepository
 
     @Binds
+    abstract fun provideMyApplicationRepository(repo: MyApplicationsRepositoryImpl): MyApplicationsRepository
+
+    @Binds
     abstract fun provideCodeRepo(repo: CodeRepositoryImpl): CodeRepository
 
     @Binds

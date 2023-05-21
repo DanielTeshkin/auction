@@ -17,6 +17,10 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun Fragment.toast(msg: String) {
  Toast.makeText(this.context, msg, Toast.LENGTH_LONG).show()
@@ -39,6 +43,29 @@ fun <T : ViewBinding> ViewGroup.inflate(
 ): T {
  val inflater = LayoutInflater.from(context)
  return inflateBinding(inflater, this, attachToRoot)
+}
+
+ fun String.isDateAfterToday(): Boolean {
+ val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+ val dateTime = LocalDateTime.parse(this, formatter)
+ val now = LocalDateTime.now()
+ return dateTime.isAfter(now)
+}
+
+fun String.getOnlyTime(): String {
+ val inputDate = this
+ val inputFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
+ val outputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+
+ val date = inputFormat.parse(inputDate)
+ return date?.let { outputFormat.format(it) } ?: ""
+}
+
+fun String.isDateBeforeToday(): Boolean {
+ val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+ val dateTime = LocalDateTime.parse(this, formatter)
+ val now = LocalDateTime.now()
+ return dateTime.isBefore(now)
 }
 
 fun EditText.textChangedFlow(): Flow<String> {

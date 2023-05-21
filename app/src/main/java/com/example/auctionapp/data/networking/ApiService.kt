@@ -50,10 +50,10 @@ interface ApiService {
         @Body info: SendCodeDTO
     ): String
 
-    @POST("reset_password")
+    @POST("reset_password/")
     suspend fun resetPassword(
         @Body info: ResetPassDTO
-    ): SignUpResponseDTO
+    )
 
     @POST("sign-in/")
     suspend fun signIn(
@@ -64,6 +64,18 @@ interface ApiService {
     suspend fun signUp(
         @Body info: SignInDTO
     ): SignUpResponseDTO
+
+    @POST("product/{id}/raise_price/")
+    suspend fun racePrice(
+        @Path(value = "id") id: String,
+        @Body info: RacePriceDTO
+    )
+
+    @GET("bid/")
+    suspend fun getMyBidsList(): ProductBaseResponseDTO<MyBidDTO>
+
+    @POST("bid/create/")
+    suspend fun createBid(@Body request: BidCreateRequestDTO)
 
     @GET("cities/")
     suspend fun getCitiesList(): List<CitiesDTO>
@@ -91,10 +103,10 @@ interface ApiService {
         @Path("id") id: String
     ): ProductDTO
 
-    @POST("product/{id}/raise_price/")
-    suspend fun raisePrice(
-        @Path("id") id: String,
-        @Body price: NewPriceDTO
-    ): String
+//    @POST("product/{id}/raise_price/")
+//    suspend fun raisePrice(
+//        @Path("id") id: String,
+//        @Body price: NewPriceDTO
+//    ): String
 
 }

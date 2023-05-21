@@ -23,20 +23,22 @@ class FilterFragment : Fragment(R.layout.search_filter_fragment) {
     private val binding by viewBinding(SearchFilterFragmentBinding::bind)
     private val viewModel by viewModels<FilterViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.getCities()
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        viewModel.getCities()
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         handleData()
-
         mainViewModel.minPriceLiveData.value?.let {
             binding.priceMin.setText(it)
         }
         mainViewModel.maxPriceLiveData.value?.let {
             binding.priceMax.setText(it)
+        }
+        binding.etCity.setOnItemClickListener { parent, view, position, id ->
+            mainViewModel.selectedCityNameLiveData.value = parent.getItemAtPosition(position).toString()
         }
 
         binding.apply.setOnClickListener {
@@ -46,7 +48,7 @@ class FilterFragment : Fragment(R.layout.search_filter_fragment) {
             Log.d("TTT", binding.etCity.text.toString())
             mainViewModel.setCity(
                 if (binding.etCity.text.toString() != "") {
-                    viewModel.citiesLiveData.value?.find { it.name == binding.etCity.text.toString() }?.id
+                    mainViewModel.citiesLiveData.value?.find { it.name == binding.etCity.text.toString() }?.id
                         ?: ""
                 } else {
                     ""
@@ -59,22 +61,25 @@ class FilterFragment : Fragment(R.layout.search_filter_fragment) {
             findNavController().popBackStack()
         }
         binding.reset.setOnClickListener {
+            mainViewModel.selectedCityNameLiveData.value = ""
             mainViewModel.setCity("")
             mainViewModel.setMinPrice("")
             mainViewModel.setMaxPrice("")
             findNavController().popBackStack()
         }
+
     }
 
     private fun handleData() {
-        viewModel.citiesLiveData.observe(viewLifecycleOwner) {
             val adapter = ArrayAdapter(
                 requireActivity(),
                 R.layout.item_city,
-                it.map { it.name }
+                mainViewModel.citiesLiveData.value!!.map { it.name }
             )
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
             binding.etCity.setAdapter(adapter)
+        if (mainViewModel.selectedCityNameLiveData.value != null) {
+            binding.etCity.setText(mainViewModel.selectedCityNameLiveData.value)
         }
     }
 

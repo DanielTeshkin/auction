@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.getCities()
             if (prefs.mAccessToken != "") {
                 val navHostFragment =
                     supportFragmentManager.findFragmentById(binding.fragment.id) as NavHostFragment

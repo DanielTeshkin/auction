@@ -35,11 +35,7 @@
     <fragment
         android:id="@+id/passportRecoveryFragment"
         android:name="com.example.auctionapp.ui.pass_recovery.PasswordRecoveryFragment"
-        android:label="PassportRecoveryFragment" >
-        <action
-            android:id="@+id/action_passportRecoveryFragment_self"
-            app:destination="@id/passportRecoveryFragment" />
-    </fragment>
+        android:label="PassportRecoveryFragment" />
     <fragment
         android:id="@+id/confirmNumberFragment"
         android:name="com.example.auctionapp.ui.register.number.ConfirmNumberFragment"
@@ -87,6 +83,13 @@
         <argument
             android:name="id"
             app:argType="string" />
+        <argument
+            android:name="isItBid"
+            app:argType="boolean" />
+        <argument
+            android:name="status"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -107,7 +110,7 @@
             android:name="number"
             app:argType="string" />
         <action
-            android:id="@+id/action_passwordRecoveryFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            android:id="@+id/action_passwordRecoveryFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

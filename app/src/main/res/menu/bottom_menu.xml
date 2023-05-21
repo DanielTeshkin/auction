@@ -10,6 +10,10 @@
         android:icon="@drawable/selector_menu_favorites"
         android:title="@string/navigation_favorites_text" />
     <item
+        android:id="@+id/myApplicationsFragment"
+        android:icon="@drawable/selector_menu_applications"
+        android:title="@string/navigation_my_applications_text" />
+    <item
         android:id="@id/profileFragment"
         android:icon="@drawable/selector_menu_profile"
         android:title="@string/navigation_profile_text" />

@@ -1,6 +1,7 @@
 package com.example.auctionapp.ui.login.pass_recovery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -32,10 +33,11 @@ class PasswordRecoveryFragment : Fragment(R.layout.fragment_passport_recovery) {
         with(viewModel) {
             resetPassSuccess.observe(viewLifecycleOwner) {
                 findNavController().navigate(
-                    R.id.action_passwordRecoveryFragment_to_mainFragment
+                    R.id.action_passwordRecoveryFragment_to_loginFragment
                 )
             }
             resetPassFail.observe(viewLifecycleOwner) {
+                Log.d("TTT", "resetPassFail $it")
                 toast(it)
             }
         }
@@ -52,6 +54,8 @@ class PasswordRecoveryFragment : Fragment(R.layout.fragment_passport_recovery) {
 
     private fun checkLength(): Boolean {
         return binding.etPassword.text.length == binding.etConfirmNewPassword.text.length
+                && binding.etConfirmNewPassword.text.isNotEmpty()
+                && binding.etPassword.text.isNotEmpty()
     }
 
     private fun handleClick() {

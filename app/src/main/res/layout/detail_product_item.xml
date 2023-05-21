@@ -13,9 +13,9 @@
             android:id="@+id/view_pager"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:layout_marginTop="8dp"
             android:paddingHorizontal="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,13 +31,13 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
+            android:text="@string/auction_start_text"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="normal"
-            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/note"
-            android:text="@string/auction_start_text" />
+            app:layout_constraintTop_toBottomOf="@+id/note" />
 
         <TextView
             android:id="@+id/end_date"
@@ -46,13 +46,14 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
+            android:text="@string/end_date_text"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="normal"
-            android:textColor="@color/black"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/date"
-            android:text="@string/end_date_text" />
+            app:layout_constraintTop_toBottomOf="@+id/date" />
 
         <TextView
             android:id="@+id/price"
@@ -70,6 +71,46 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_pager"
             tools:hint="25 000 руб" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:text="Статус: %s"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/price" />
+
+        <TextView
+            android:id="@+id/registerTimeStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:text="Регистрация: 20.12.2023-20.12.2023"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/status" />
+
+        <TextView
+            android:id="@+id/registerTimeEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:text="Регистрация: 20.12.2023-20.12.2023"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/registerTimeStart" />
 
         <TextView
             android:id="@+id/name"
@@ -100,12 +141,25 @@
             android:text="Описание"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/price" />
+            app:layout_constraintTop_toBottomOf="@+id/registerTimeEnd" />
 
+        <TextView
+            android:id="@+id/minStep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:text="Минимальный шаг: 700 т.р."
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/end_date" />
 
         <EditText
             android:id="@+id/newPriceET"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginHorizontal="24dp"
@@ -116,9 +170,10 @@
             android:hint="Введите новую сумму"
             android:inputType="number"
             android:padding="8dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/end_date" />
+            app:layout_constraintTop_toBottomOf="@+id/minStep" />
 
         <TextView
             android:id="@+id/note"
@@ -132,8 +187,6 @@
             app:layout_constraintTop_toBottomOf="@+id/note_title"
             tools:hint="Текст описания" />
 
-
-
         <LinearLayout
             android:id="@+id/ll_search_buttons"
             android:layout_width="match_parent"
@@ -146,9 +199,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/raise">
+            app:layout_constraintTop_toBottomOf="@+id/llRaicePrice">
 
             <com.google.android.material.button.MaterialButton
+                android:enabled="false"
                 android:id="@+id/call"
                 style="@style/BoldTextView"
                 android:layout_width="0dp"
@@ -164,16 +218,15 @@
                 app:cornerRadius="10dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/write"
+                android:id="@+id/apply"
                 style="@style/BoldTextView"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="10dp"
-                android:visibility="gone"
                 android:layout_weight="1"
                 android:backgroundTint="@drawable/selector_blue_button"
                 android:letterSpacing="0.01"
-                android:text="Написать"
+                android:text="Подать заявку"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp"
@@ -181,8 +234,58 @@
 
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
+        <LinearLayout
+            android:id="@+id/llRaicePrice"
+            android:layout_marginHorizontal="8dp"
             android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/minStep">
+
+            <TextView
+                android:id="@+id/downPriceBtn"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:enabled="false"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/down_price_selector"
+                android:text="-50"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/currentPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="7"
+                android:gravity="center"
+                android:text="500"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+
+            <TextView
+                android:id="@+id/raicePriceBtn"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/raice_price_background"
+                android:gravity="center"
+                android:text="+50"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/raise"
             style="@style/BoldTextView"
             android:layout_width="0dp"
@@ -197,23 +300,12 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp"
+            android:visibility="gone"
             app:cornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/newPriceET"
             tools:layout_editor_absoluteY="375dp" />
-
-        <ImageView
-            android:id="@+id/another"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="128dp"
-            app:layout_constraintBottom_toBottomOf="@+id/view_pager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_more_vert_27" />
 
         <CheckBox
             android:id="@+id/like"
@@ -228,9 +320,9 @@
 
         <ProgressBar
             android:id="@+id/progress"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

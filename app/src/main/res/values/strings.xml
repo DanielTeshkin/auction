@@ -5,6 +5,8 @@
     <string name="MAPS_API_KEY">AIzaSyCrhv3ZZIrDjWkS95nQIg1KHQQGU_MUz4k</string>
     <string name="number_format">+7%s</string>
     <string name="price">Начальная цена: %s ₽</string>
+    <string name="current_price">%s ₽</string>
+    <string name="min_step">Минимальный шаг: %s ₽</string>
     <string name="date_format">%s - %s</string>
     <string name="detail_date_format">%s - %s</string>
     <string name="fio_text">ФИО: %s %s %s</string>
@@ -39,6 +41,7 @@
     <string name="navigation_search_text">Поиск</string>
     <string name="navigation_profile_text">Профиль</string>
     <string name="navigation_favorites_text">Избранное</string>
+    <string name="navigation_my_applications_text">Мои заявки</string>
     <string name="navigation_tender_text">Тендер</string>
     <string name="navigation_chat_text">Чат</string>
 
@@ -83,6 +86,8 @@
     <string name="search_fragment_filtering_by_price">По возрастанию цены</string>
     <string name="search_fragment_search">Поиск</string>
     <string name="filter">Отфильтровать</string>
+    <string name="register_time_start">Начало регистрация: %s</string>
+    <string name="register_time_end">Окончание регистрация: %s</string>
 
     <!-- Search Filter Fragment -->
     <string name="search_filter_fragment_in_stock">В наличии</string>
@@ -118,7 +123,10 @@
         <item quantity="other">Пожалуйста выбере %1$d more images…</item>
     </plurals>
     <string name="pick_multi_limit">Превышен лимит</string>
-    <string name="auction_start_text">Начало аукциона: %s</string>
+    <string name="auction_start_text">Время проведения: %s - %s</string>
     <string name="end_date_text">Конец аукциона: %s</string>
+    <string name="status">Статус: %s</string>
+    <string name="raice_price">+%s</string>
+    <string name="down_price">-%s</string>
 
 </resources>

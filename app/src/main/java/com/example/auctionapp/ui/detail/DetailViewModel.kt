@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.auctionapp.domain.models.BaseResponse
-import com.example.auctionapp.domain.models.PhotosModel
-import com.example.auctionapp.domain.models.ProductModel
+import com.example.auctionapp.domain.models.*
 import com.example.auctionapp.domain.repository.DetailInfoRepository
 import com.example.auctionapp.tools.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -55,6 +53,38 @@ class DetailViewModel @Inject constructor(
         }
     }
 
+    fun racePrice(id: String, info: RacePriceModel) {
+        viewModelScope.launch {
+            _progressLive.postValue(true)
+            val result = repo.racePrice(id = id, info = info)
+            when(result) {
+                is BaseResponse.Success -> {
+                    _successLive.postValue(Unit)
+                }
+                is BaseResponse.Error -> {
+                    _failLive.postValue(result.message)
+                }
+            }
+            _progressLive.postValue(false)
+        }
+    }
+
+    fun createBid(id: String) {
+        viewModelScope.launch {
+            _progressLive.postValue(true)
+            val result = repo.createBid(info = BidCreateRequestModel(id))
+            when(result) {
+                is BaseResponse.Success -> {
+                    _successLive.postValue(Unit)
+                }
+                is BaseResponse.Error -> {
+                    _failLive.postValue(result.message)
+                }
+            }
+            _progressLive.postValue(false)
+        }
+    }
+
     fun deleteProductFromFavorite(info: ProductModel) {
         viewModelScope.launch {
             repo.deleteProduct(info)
@@ -76,21 +106,21 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun raisePrice(id: String, price: String, success: () -> Unit, fail: () -> Unit) {
-        viewModelScope.launch {
-            _progressLive.postValue(true)
-            val result = repo.raisePrice(id, price)
-            when (result) {
-                is BaseResponse.Success -> {
-                    _raisePriceLive.postValue(true)
-                    success()
-                }
-                is BaseResponse.Error -> {
-                    fail()
-                    _failLive.postValue(result.message)
-                }
-            }
-            _progressLive.postValue(false)
-        }
-    }
+//    fun raisePrice(id: String, price: String, success: () -> Unit, fail: () -> Unit) {
+//        viewModelScope.launch {
+//            _progressLive.postValue(true)
+//            val result = repo.raisePrice(id, price)
+//            when (result) {
+//                is BaseResponse.Success -> {
+//                    _raisePriceLive.postValue(true)
+//                    success()
+//                }
+//                is BaseResponse.Error -> {
+//                    fail()
+//                    _failLive.postValue(result.message)
+//                }
+//            }
+//            _progressLive.postValue(false)
+//        }
+//    }
 }

@@ -6,15 +6,14 @@
     <data>
         <variable
             name="product"
-            type="com.example.auctionapp.domain.models.FavoriteProductModel" />
+            type="com.example.auctionapp.domain.models.MyBidModel" />
         <variable
             name="listener"
-            type="com.example.auctionapp.ui.search.adapter.ProductAdapterDelegate.OnItemClickListener" />
+            type="com.example.auctionapp.ui.my_applications.adapter.BidAdapterDelegate.OnItemClickListener" />
 
         <variable
             name="listenerFavorite"
-            type="com.example.auctionapp.ui.search.adapter.ProductAdapterDelegate.OnItemClickListener" />
-
+            type="com.example.auctionapp.ui.my_applications.adapter.BidAdapterDelegate.OnItemClickListener" />
     </data>
 
     <LinearLayout
@@ -99,20 +98,16 @@
                         android:layout_height="wrap_content" />
 
                 </LinearLayout>
-
-
-
-
-                <CheckBox
-                    android:id="@+id/like"
-                    android:layout_width="25dp"
-                    android:onClick="@{(view) -> listenerFavorite.onFavoriteClick(product)}"
-                    android:layout_gravity="center"
-                    android:layout_height="22dp"
-                    android:background="@drawable/selector_like"
-                    android:button="@null"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+<!--                <CheckBox-->
+<!--                    android:id="@+id/like"-->
+<!--                    android:layout_width="25dp"-->
+<!--                    android:onClick="@{(view) -> listenerFavorite.onFavoriteClick(product)}"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_height="22dp"-->
+<!--                    android:background="@drawable/selector_like"-->
+<!--                    android:button="@null"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
             </LinearLayout>
 
@@ -125,6 +120,19 @@
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date"
+                android:text="@string/status" />
 
             <TextView
                 android:textColor="#111B33"
@@ -162,27 +170,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/date"
                 android:text="@string/end_date_text" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/call"
-                android:layout_marginTop="8dp"
-                style="@style/BoldTextView"
-                android:onClick="@{(view) -> listener.onBidClick(product.id)}"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:backgroundTint="@drawable/selector_blue_button"
-                android:letterSpacing="0.01"
-                android:text="Подать заявку"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:visibility="visible"
-                app:cornerRadius="10dp" />
-
-
-
-
 
 
         </LinearLayout>

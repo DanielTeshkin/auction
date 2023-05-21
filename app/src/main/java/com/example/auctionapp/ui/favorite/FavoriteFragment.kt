@@ -23,7 +23,8 @@ import com.example.auctionapp.ui.search.adapter.ProductAdapterDelegate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavoriteFragment : Fragment(R.layout.favorite_fragment), ProductAdapterDelegate.OnItemClickListener {
+class FavoriteFragment : Fragment(R.layout.favorite_fragment),
+    ProductAdapterDelegate.OnItemClickListener {
 
     private val viewModel by viewModels<FavoriteViewModel>()
     private val binding by viewBinding(FavoriteFragmentBinding::bind)
@@ -60,12 +61,18 @@ class FavoriteFragment : Fragment(R.layout.favorite_fragment), ProductAdapterDel
     override fun onItemClick(product: FavoriteProductModel) {
         findTopNavController().navigate(
             MainFragmentDirections.actionMainFragmentToDetailFragment(
-                id = product.id
+                id = product.id,
+                isItBid = false,
+                status = null
             )
         )
     }
 
     override fun onFavoriteClick(product: FavoriteProductModel) {
         viewModel.deleteProductFromFavorite(product.toProductModel())
+    }
+
+    override fun onBidClick(id: String) {
+
     }
 }

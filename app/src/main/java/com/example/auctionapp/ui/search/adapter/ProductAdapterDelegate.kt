@@ -7,7 +7,10 @@ import com.example.auctionapp.R
 import com.example.auctionapp.databinding.ItemProductBinding
 import com.example.auctionapp.domain.models.FavoriteProductModel
 import com.example.auctionapp.domain.models.ProductModel
+import com.example.auctionapp.tools.getOnlyTime
 import com.example.auctionapp.tools.inflate
+import com.example.auctionapp.tools.isDateAfterToday
+import com.example.auctionapp.tools.isDateBeforeToday
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -34,7 +37,11 @@ class ProductAdapterDelegate(
         )
     }
 
-    override fun onBindViewHolder(item: FavoriteProductModel, holder: Holder, payloads: MutableList<Any>) {
+    override fun onBindViewHolder(
+        item: FavoriteProductModel,
+        holder: Holder,
+        payloads: MutableList<Any>
+    ) {
         holder.bind(item)
     }
 
@@ -51,26 +58,30 @@ class ProductAdapterDelegate(
             }
         }
 
+        private val context = binding.root.context
         fun bind(product: FavoriteProductModel) = with(binding) {
             like.isChecked = product.isFavorite
             like.setOnClickListener {
                 product.isFavorite = !product.isFavorite
             }
             this.product = product
-            price.text = binding.root.context.getString(R.string.price, product.price.toString())
+            registerTimeStart.text = context.getString(R.string.register_time_start, product.startRegistration)
+            registerTimeEnd.text = context.getString(R.string.register_time_end, product.endRegistration)
+            price.text = context.getString(R.string.price, product.price.toString())
             title.text = product.title
             Glide.with(itemView)
                 .load(product.photos?.first()?.file)
                 .placeholder(R.drawable.no_image)
                 .into(avatar)
-            date.text = binding.root.context.getString(
+            date.text = context.getString(
                 R.string.auction_start_text,
-                product.startDate!!
+                product.startDate!!,
+                product.endDate!!.getOnlyTime()
             )
-            endDate.text = binding.root.context.getString(
-                R.string.end_date_text,
-                product.endDate!!
-            )
+//            endDate.text = context.getString(
+//                R.string.end_date_text,
+//                product.endDate!!
+//            )
         }
 
         private fun formatDate(dateTimeStr: String): String {
@@ -85,6 +96,8 @@ class ProductAdapterDelegate(
         fun onItemClick(product: FavoriteProductModel)
 
         fun onFavoriteClick(product: FavoriteProductModel)
+
+        fun onBidClick(id: String)
     }
 }
 

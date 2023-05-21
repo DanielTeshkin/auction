@@ -31,5 +31,12 @@
         <argument
             android:name="id"
             app:argType="string" />
+        <argument
+            android:name="isItBid"
+            app:argType="boolean" />
     </fragment>
+    <fragment
+        android:id="@+id/myApplicationsFragment"
+        android:name="com.example.auctionapp.ui.my_applications.MyApplicationsFragment"
+        android:label="MyApplicationsFragment" />
 </navigation>

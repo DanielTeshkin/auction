@@ -19,10 +19,9 @@ import com.example.auctionapp.databinding.SearchFragmentBinding
 import com.example.auctionapp.domain.models.FavoriteProductModel
 import com.example.auctionapp.domain.models.ProductModel
 import com.example.auctionapp.domain.models.toProductModel
-import com.example.auctionapp.tools.findTopNavController
-import com.example.auctionapp.tools.textChangedFlow
-import com.example.auctionapp.tools.toast
+import com.example.auctionapp.tools.*
 import com.example.auctionapp.ui.MainViewModel
+import com.example.auctionapp.ui.main.MainFragment
 import com.example.auctionapp.ui.main.MainFragmentDirections
 import com.example.auctionapp.ui.search.adapter.ProductAdapter
 import com.example.auctionapp.ui.search.adapter.ProductAdapterDelegate
@@ -31,6 +30,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.search_fragment),
@@ -50,8 +51,6 @@ class SearchFragment : Fragment(R.layout.search_fragment),
         search()
         handleData()
         initView()
-        Log.d("FFF", mainViewModel.maxPriceLiveData.value.toString())
-        Log.d("FFF", mainViewModel.minPriceLiveData.value.toString())
     }
 
 
@@ -64,20 +63,27 @@ class SearchFragment : Fragment(R.layout.search_fragment),
             setHasFixedSize(false)
         }
         binding.sort.setOnClickListener {
+
+            sort = !sort
+            val sortInfo = if (sort) "price" else ""
+            viewModel.getProducts(
+                searchText,
+                sortInfo,
+                mainViewModel.minPriceLiveData.value ?: "",
+                mainViewModel.maxPriceLiveData.value ?: "",
+                mainViewModel.selectedCityLiveData.value ?: ""
+            )
+        }
+        binding.filterBtn.setOnClickListener {
             findTopNavController().navigate(
                 R.id.action_mainFragment_to_filterFragment
             )
-            sort = !sort
-//            val sortInfo = if (sort) "price" else ""
-//            viewModel.getProducts(
-//                searchText,
-//                sortInfo,
-//                mainViewModel.minPriceLiveData.value ?: "",
-//                mainViewModel.maxPriceLiveData.value ?: "",
-//                mainViewModel.selectedCityLiveData.value ?: ""
-//            )
         }
     }
+
+
+
+
 
     private fun search() {
         searchJob?.cancel()
@@ -89,7 +95,7 @@ class SearchFragment : Fragment(R.layout.search_fragment),
                     searchText = text
                     val sortInfo = if (sort) "price" else ""
                     viewModel.getProducts(
-                        text, "", mainViewModel.minPriceLiveData.value ?: "",
+                        text, sortInfo, mainViewModel.minPriceLiveData.value ?: "",
                         mainViewModel.maxPriceLiveData.value ?: "",
                         mainViewModel.selectedCityLiveData.value ?: ""
                     )
@@ -101,6 +107,7 @@ class SearchFragment : Fragment(R.layout.search_fragment),
     private fun handleData() {
         with(viewModel) {
             productLive.observe(viewLifecycleOwner) { products ->
+                products.filter { it.startRegistration.isDateAfterToday() && it.endRegistration.isDateBeforeToday() }
                 productAdapter.items = products
 
             }
@@ -132,7 +139,9 @@ class SearchFragment : Fragment(R.layout.search_fragment),
 //        } else {
         findTopNavController().navigate(
             MainFragmentDirections.actionMainFragmentToDetailFragment(
-                id = product.id
+                id = product.id,
+                isItBid = false,
+                status = null
             )
         )
 //        }
@@ -143,6 +152,10 @@ class SearchFragment : Fragment(R.layout.search_fragment),
         if (product.isFavorite) viewModel.deleteProductFromFavorite(product.toProductModel()) else viewModel.insertToDb(
             product.toProductModel()
         )
+    }
+
+    override fun onBidClick(id: String) {
+        viewModel.createBid(id)
     }
 
 }

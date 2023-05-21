@@ -4,6 +4,9 @@ import com.example.auctionapp.data.model.PhotosDTO
 import com.squareup.moshi.Json
 
 data class ProductModel(
+    val rateHikePrice: String,
+    val endRegistration: String,
+    val startRegistration: String,
     val id: String,
     val city: CitiesModel?,
     val photos: List<PhotosModel>?,
@@ -22,7 +25,19 @@ data class PhotosModel(
 
 fun ProductModel.toFavoriteModel(isFavorite: Boolean): FavoriteProductModel {
     return FavoriteProductModel(
-        id, city, photos, title, description, startDate, endDate, price, category, isFavorite
+        startRegistration = startRegistration,
+        endRegistration = endRegistration,
+        id = id,
+        city = city,
+        photos = photos,
+        title = title,
+        description = description,
+        startDate = startDate,
+        endDate = endDate,
+        price = price,
+        category = category,
+        isFavorite = isFavorite,
+        rateHikePrice = rateHikePrice
     )
 
 

@@ -49,7 +49,10 @@ fun List<LotEntity>.toModel(): List<ProductModel> {
                 title = it.title,
                 price = it.price,
                 photos = it.image.toPhotosModel(),
-                city = it.city?.toModel()
+                city = it.city?.toModel(),
+                startRegistration = "",
+                endRegistration = "",
+                rateHikePrice = ""
             )
         )
     }
@@ -91,7 +94,10 @@ fun LotEntity.toModel(): ProductModel {
         title = title,
         price = price,
         photos = image.toPhotosModel(),
-        city = city?.toModel()
+        city = city?.toModel(),
+        startRegistration = "",
+        endRegistration = "",
+        rateHikePrice = ""
     )
 }
 
