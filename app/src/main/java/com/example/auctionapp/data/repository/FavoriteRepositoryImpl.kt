@@ -34,7 +34,7 @@ class FavoriteRepositoryImpl @Inject constructor(
     override suspend fun deleteProduct(info: ProductModel) {
         withContext(Dispatchers.IO) {
             try {
-                db.deleteProduct(info.toEntity())
+                api.deleteElectedItem(info.id)
             } catch (e: Exception) {
                 Log.d("TTT", e.message.toString())
             }

@@ -2,12 +2,8 @@ package com.example.auctionapp.data.networking
 
 import com.example.auctionapp.data.*
 import com.example.auctionapp.data.model.*
-import com.example.auctionapp.domain.models.BaseResponse
-import kotlinx.coroutines.flow.Flow
-import okhttp3.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
-import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -31,7 +27,7 @@ interface ApiService {
         @Body item: ProductToSetFavoriteDTO
     )
 
-    @DELETE("/product/elected/{id}/")
+    @DELETE("product/elected/{id}/")
     suspend fun deleteElectedItem(
         @Path("id") id: String
     )
