@@ -39,4 +39,8 @@
         android:id="@+id/myApplicationsFragment"
         android:name="com.example.auctionapp.ui.my_applications.MyApplicationsFragment"
         android:label="MyApplicationsFragment" />
+    <fragment
+        android:id="@+id/myActiveAuctionsFragment"
+        android:name="com.example.auctionapp.ui.my_active_auctions.MyActiveAuctionsFragment"
+        android:label="MyActiveAuctionsFragment" />
 </navigation>

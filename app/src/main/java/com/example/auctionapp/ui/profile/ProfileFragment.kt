@@ -8,7 +8,10 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.auctionapp.R
 import com.example.auctionapp.databinding.FragmentProfileBinding
+import com.example.auctionapp.tools.findTopNavController
 import com.example.auctionapp.tools.toast
+import com.example.auctionapp.ui.main.MainFragmentDirections
+import com.example.auctionapp.ui.win_auctions.WinAuctionsFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +25,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getInfo()
         handleData()
+        binding.viewWonAuctionsBtn.setOnClickListener {
+            findTopNavController().navigate(
+                R.id.action_mainFragment_to_winAuctionsFragment2
+            )
+
+        }
     }
 
     private fun handleData() {

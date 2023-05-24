@@ -101,6 +101,9 @@
         <action
             android:id="@+id/action_mainFragment_to_filterFragment"
             app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_winAuctionsFragment2"
+            app:destination="@id/winAuctionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/passwordRecoveryFragment"
@@ -112,5 +115,13 @@
         <action
             android:id="@+id/action_passwordRecoveryFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/winAuctionsFragment"
+        android:name="com.example.auctionapp.ui.win_auctions.WinAuctionsFragment"
+        android:label="WinAuctionsFragment" >
+        <action
+            android:id="@+id/action_winAuctionsFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
 </navigation>

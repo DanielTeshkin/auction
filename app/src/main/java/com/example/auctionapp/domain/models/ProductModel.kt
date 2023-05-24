@@ -1,5 +1,6 @@
 package com.example.auctionapp.domain.models
 
+import com.example.auctionapp.data.model.AuthorDTO
 import com.example.auctionapp.data.model.PhotosDTO
 import com.squareup.moshi.Json
 
@@ -15,13 +16,14 @@ data class ProductModel(
     val startDate: String?,
     val endDate: String?,
     val price: Long,
-    val category: String?
-)
+    val category: String?,
+    val author: AuthorModel
+): java.io.Serializable
 
 data class PhotosModel(
     val id: String,
     val file: String
-)
+): java.io.Serializable
 
 fun ProductModel.toFavoriteModel(isFavorite: Boolean): FavoriteProductModel {
     return FavoriteProductModel(

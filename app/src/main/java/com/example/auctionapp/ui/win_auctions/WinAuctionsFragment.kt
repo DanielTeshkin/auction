@@ -1,4 +1,4 @@
-package com.example.auctionapp.ui.my_applications
+package com.example.auctionapp.ui.win_auctions
 
 import android.os.Bundle
 import android.util.Log
@@ -10,33 +10,33 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import autoCleared
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.auctionapp.R
-import com.example.auctionapp.databinding.MyApplicationsFragmentBinding
-import com.example.auctionapp.domain.models.MyBidModel
+import com.example.auctionapp.databinding.FragmentWinAuctionsBinding
+import com.example.auctionapp.domain.models.ProductModel
 import com.example.auctionapp.tools.findTopNavController
+import com.example.auctionapp.tools.isDateAfterToday
+import com.example.auctionapp.tools.isDateBeforeToday
 import com.example.auctionapp.tools.toast
-import com.example.auctionapp.ui.main.MainFragmentDirections
-import com.example.auctionapp.ui.my_applications.adapter.BidAdapter
-import com.example.auctionapp.ui.my_applications.adapter.BidAdapterDelegate
 import com.example.auctionapp.ui.search.adapter.ProductAdapter
+import com.example.auctionapp.ui.win_auctions.adapter.WinAuctionAdapter
+import com.example.auctionapp.ui.win_auctions.adapter.WinAuctionAdapterDelegate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyApplicationsFragment : Fragment(R.layout.my_applications_fragment),
-    BidAdapterDelegate.OnItemClickListener {
+class WinAuctionsFragment: Fragment(R.layout.fragment_win_auctions), WinAuctionAdapterDelegate.OnItemClickListener {
 
-    private val viewModel by viewModels<MyApplicationsViewModel>()
-    private val binding by viewBinding(MyApplicationsFragmentBinding::bind)
-    private var productAdapter by autoCleared<BidAdapter>()
+    private val binding by viewBinding(FragmentWinAuctionsBinding::bind)
+    private val viewModel by viewModels<WinAuctionsViewModel>()
+    private var productAdapter by autoCleared<WinAuctionAdapter>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        handleData()
         initView()
-        viewModel.getItems()
+        viewModel.getProducts()
+        handleData()
     }
 
     private fun initView() {
-        productAdapter = BidAdapter(this)
+        productAdapter = WinAuctionAdapter(this)
         with(binding.rv) {
             adapter = productAdapter
             layoutManager =
@@ -49,9 +49,7 @@ class MyApplicationsFragment : Fragment(R.layout.my_applications_fragment),
         with(viewModel) {
             productLive.observe(viewLifecycleOwner) { products ->
                 productAdapter.items = products
-            }
-            progressLive.observe(viewLifecycleOwner) {
-                binding.progress.isGone = !it
+
             }
             failLive.observe(viewLifecycleOwner) {
                 toast(it)
@@ -59,13 +57,15 @@ class MyApplicationsFragment : Fragment(R.layout.my_applications_fragment),
         }
     }
 
-    override fun onItemClick(product: MyBidModel) {
+    override fun onItemClick(product: ProductModel) {
         findTopNavController().navigate(
-            MainFragmentDirections.actionMainFragmentToDetailFragment(
-                product.product.id,
-                isItBid = true,
-                status = product.status
+            WinAuctionsFragmentDirections.actionWinAuctionsFragmentToDetailFragment(
+                product.id,
+                isItBid = false,
+                status = ""
             )
         )
     }
+
+
 }

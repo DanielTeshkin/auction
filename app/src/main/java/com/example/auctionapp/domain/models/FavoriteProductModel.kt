@@ -18,6 +18,7 @@ data class FavoriteProductModel(
 
 fun FavoriteProductModel.toProductModel(): ProductModel {
     return ProductModel(
-        rateHikePrice, endRegistration, startRegistration,id, city, photos, title, description, startDate, endDate, price, category
+        rateHikePrice, endRegistration, startRegistration,id, city, photos, title, description, startDate, endDate, price, category,                 author = AuthorModel("", null,null,null,null,)
+
     )
 }

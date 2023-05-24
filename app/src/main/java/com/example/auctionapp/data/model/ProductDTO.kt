@@ -29,7 +29,9 @@ data class ProductDTO(
     @Json(name = "price")
     val price: Long,
     @Json(name = "category")
-    val category: String?
+    val category: String?,
+    @Json(name = "author")
+    val author: AuthorDTO
 )
 
 
@@ -49,7 +51,8 @@ fun List<ProductDTO>.toModel(): List<ProductModel> {
                 category = it.category,
                 startRegistration = it.startRegistration,
                 endRegistration = it.endRegistration,
-                rateHikePrice = it.rateHikePrice
+                rateHikePrice = it.rateHikePrice,
+                author = it.author.toModel()
             )
         )
     }
@@ -69,6 +72,7 @@ fun ProductDTO.toModel(): ProductModel {
         category = category,
         startRegistration = startRegistration,
         endRegistration = endRegistration,
-        rateHikePrice = rateHikePrice
+        rateHikePrice = rateHikePrice,
+        author = author.toModel()
     )
 }

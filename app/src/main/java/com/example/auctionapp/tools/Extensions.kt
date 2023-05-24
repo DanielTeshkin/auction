@@ -1,5 +1,6 @@
 package com.example.auctionapp.tools
 
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
@@ -24,6 +25,13 @@ import java.util.*
 
 fun Fragment.toast(msg: String) {
  Toast.makeText(this.context, msg, Toast.LENGTH_LONG).show()
+}
+
+fun <T : Fragment> T.withArguments(action: Bundle.() -> Unit): T {
+ return apply {
+  val args = Bundle().apply(action)
+  arguments = args
+ }
 }
 
 fun CharSequence?.isValidEmail() =

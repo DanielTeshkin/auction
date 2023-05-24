@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.auctionapp.data.model.CitiesDTO
 import com.example.auctionapp.data.model.toModel
+import com.example.auctionapp.domain.models.AuthorModel
 import com.example.auctionapp.domain.models.CitiesModel
 import com.example.auctionapp.domain.models.PhotosModel
 import com.example.auctionapp.domain.models.ProductModel
@@ -52,7 +53,8 @@ fun List<LotEntity>.toModel(): List<ProductModel> {
                 city = it.city?.toModel(),
                 startRegistration = "",
                 endRegistration = "",
-                rateHikePrice = ""
+                rateHikePrice = "",
+                author = AuthorModel("", null,null,null,null,)
             )
         )
     }
@@ -97,7 +99,8 @@ fun LotEntity.toModel(): ProductModel {
         city = city?.toModel(),
         startRegistration = "",
         endRegistration = "",
-        rateHikePrice = ""
+        rateHikePrice = "",
+        author = AuthorModel("", null,null,null,null,)
     )
 }
 

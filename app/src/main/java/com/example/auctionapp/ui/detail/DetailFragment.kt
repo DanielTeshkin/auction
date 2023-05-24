@@ -90,9 +90,14 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
             }
             infoFlow.collect { info ->
                 if (info != null) {
-                    binding.downPriceBtn.text = getString(R.string.down_price, info.rateHikePrice.toDouble().toInt().toString())
-                    binding.raicePriceBtn.text = getString(R.string.raice_price, info.rateHikePrice.toDouble().toInt().toString())
-                    binding.currentPrice.text = getString(R.string.current_price, info.price.toString())
+                    binding.downPriceBtn.text = getString(
+                        R.string.down_price,
+                    )
+                    binding.raicePriceBtn.text = getString(
+                        R.string.raice_price,
+                    )
+                    binding.currentPrice.text =
+                        getString(R.string.current_price, info.price.toString())
                     minPrice = info.price
                     currentPrice = info.price
                     minStep = info.rateHikePrice.toDouble().toLong()
@@ -131,7 +136,10 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
                         viewModel.createBid(info.id)
                     }
                     binding.call.setOnClickListener {
-                        viewModel.racePrice(id = info.id, info = RacePriceModel(currentPrice.toString()))
+                        viewModel.racePrice(
+                            id = info.id,
+                            info = RacePriceModel(currentPrice.toString())
+                        )
                     }
                 }
             }
@@ -162,27 +170,11 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
             binding.downPriceBtn.isEnabled = currentPrice > minPrice
         }
         binding.raise.setOnClickListener {
-//            if (binding.newPriceET.text.toString()
-//                    .toInt() > (viewModel.infoFlow.value?.price?.toInt() ?: 0)
-//            ) {
-//                viewModel.raisePrice(args.id, currentPrice.toString(), {
-//                    binding.newPriceET.isGone = isRaceOpen
-//                    binding.raise.isGone = isRaceOpen
-//                    binding.call.isGone = !isRaceOpen
-//                    toast("Сумма успешно повышена")
-
-//                    viewModel.getDetailInfo(args.id)
-//                    isRaceOpen = !isRaceOpen
-//                }, {
-//                })
-//            } else {
-//                toast("Новая сумма должна быть выше предыдущей!")
-//            }
         }
         binding.status.isGone = !args.isItBid
-     args.status?.let {
-         binding.status.text = getString(R.string.status, it)
-     }
+//        args.status?.let {
+//            binding.status.text = getString(R.string.status, it)
+//        }
     }
 
     override fun onItemClick(photo: PhotosModel) {

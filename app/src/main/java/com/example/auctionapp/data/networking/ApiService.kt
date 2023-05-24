@@ -35,9 +35,13 @@ interface ApiService {
     @GET("product/elected/")
     suspend fun getFavoriteProducts(): ProductBaseResponseDTO<FavoriteProductDTO>
 
+    @GET("product/active/")
+    suspend fun getActiveProductList(): ProductBaseResponseDTO<ProductDTO>
 
     @POST("confirm/phone/confirmed/")
-    suspend fun checkCode(
+    suspend
+
+    fun checkCode(
         @Body info: SendCodeDTO
     ): String
 
@@ -84,6 +88,9 @@ interface ApiService {
 
     @GET("user_info/")
     suspend fun getUserInfo(): GetUserInfoDTO
+
+    @GET("product/won/")
+    suspend fun getWonProductList(): ProductBaseResponseDTO<ProductDTO>
 
     @GET("product/")
     suspend fun getProduct(

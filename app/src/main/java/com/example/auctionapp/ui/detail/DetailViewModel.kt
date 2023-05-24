@@ -106,6 +106,8 @@ class DetailViewModel @Inject constructor(
         }
     }
 
+
+
 //    fun raisePrice(id: String, price: String, success: () -> Unit, fail: () -> Unit) {
 //        viewModelScope.launch {
 //            _progressLive.postValue(true)

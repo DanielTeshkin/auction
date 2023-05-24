@@ -28,7 +28,6 @@ class GetAllAuctionUseCase @Inject constructor(
             is BaseResponse.Success -> {
                 when (favorites) {
                     is BaseResponse.Success -> {
-
                         result.data.map { product ->
                             product.toFavoriteModel(favorites.data.map { it.product.id }
                                 .contains(product.id))

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="product"
+            type="com.example.auctionapp.domain.models.ProductModel" />
+        <variable
+            name="listener"
+            type="com.example.auctionapp.ui.win_auctions.adapter.WinAuctionAdapterDelegate.OnItemClickListener" />
+
+    </data>
+
+    <LinearLayout
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
+        android:onClick="@{(view) -> listener.onItemClick(product)}"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:layout_marginBottom="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/purple_700"
+        android:focusable="true">
+
+        <View
+            android:id="@+id/divider"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"/>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:onClick="@{(view) -> listener.onItemClick(product)}"
+            android:elevation="30dp"
+            android:focusable="true"
+            app:cardCornerRadius="10dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:src="@drawable/car"
+                android:scaleType="centerCrop"
+                android:id="@+id/avatar"
+                android:layout_width="match_parent"
+                android:onClick="@{(view) -> listener.onItemClick(product)}"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="16dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/userName"
+                        android:textColor="@color/black"
+                        android:text="UserName"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="8dp"
+                android:id="@+id/fioAuthor"
+                android:textColor="@color/black"
+                android:text="ФИО: Никита Никита Никита"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textColor="#111B33"
+                android:textColorHighlight="#111B33"
+                android:textColorHint="#111B33"
+                android:textColorLink="#111B33"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="price"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                android:textColor="@color/black"
+                android:text="nikita@nikita.nikita" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>
