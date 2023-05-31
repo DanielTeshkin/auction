@@ -24,23 +24,37 @@ class GetAllAuctionUseCase @Inject constructor(
             price_max,
             city
         )
+        val bids = repo.getBidList()
         return when (result) {
             is BaseResponse.Success -> {
                 when (favorites) {
                     is BaseResponse.Success -> {
-                        result.data.map { product ->
-                            product.toFavoriteModel(favorites.data.map { it.product.id }
-                                .contains(product.id))
+                        when(bids) {
+                            is BaseResponse.Success -> {
+                                val currentResult = result.data.filter { item ->
+                                    !bids.data.any { bids -> item.id == bids.id }
+                                }
+                                currentResult.map { product ->
+                                    product.toFavoriteModel(favorites.data.map { it.product.id }
+                                        .contains(product.id))
+                                }
+                            }
+                            is BaseResponse.Error -> {
+                                result.data.map { product ->
+                                    product.toFavoriteModel(favorites.data.map { it.product.id }
+                                        .contains(product.id))
+                                }
+                            }
                         }
+
                     }
                     is BaseResponse.Error -> {
                         result.data.map { it.toFavoriteModel(false) }
                     }
                 }
-
             }
             is BaseResponse.Error -> {
-                emptyList<FavoriteProductModel>()
+                emptyList()
             }
 
         }

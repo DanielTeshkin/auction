@@ -172,9 +172,9 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
         binding.raise.setOnClickListener {
         }
         binding.status.isGone = !args.isItBid
-//        args.status?.let {
-//            binding.status.text = getString(R.string.status, it)
-//        }
+        args.status?.let {
+            binding.status.text = getString(R.string.status, it)
+        }
     }
 
     override fun onItemClick(photo: PhotosModel) {

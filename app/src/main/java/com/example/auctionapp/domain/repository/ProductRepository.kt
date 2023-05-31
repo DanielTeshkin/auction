@@ -2,6 +2,7 @@ package com.example.auctionapp.domain.repository
 
 import com.example.auctionapp.domain.models.BaseResponse
 import com.example.auctionapp.domain.models.ElectedProductModel
+import com.example.auctionapp.domain.models.MyBidModel
 import com.example.auctionapp.domain.models.ProductModel
 
 interface ProductRepository {
@@ -18,6 +19,8 @@ interface ProductRepository {
     suspend fun getAllFavorite(): BaseResponse<List<ElectedProductModel>>
 
     suspend fun deleteProduct(info: ProductModel): BaseResponse<Unit>
+
+    suspend fun getBidList(): BaseResponse<List<MyBidModel>>
 
 
 }

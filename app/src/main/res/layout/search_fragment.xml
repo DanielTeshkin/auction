@@ -87,8 +87,8 @@
             <ImageView
                 android:id="@+id/filterBtn"
                 android:layout_width="wrap_content"
-                android:layout_marginEnd="24dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
                 android:src="@drawable/baseline_filter_alt_24"
                 app:layout_constraintBottom_toBottomOf="@+id/search_tl"
                 app:layout_constraintEnd_toEndOf="@+id/search_tl"
@@ -119,5 +119,17 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/nothingToShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/nothing_to_show"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

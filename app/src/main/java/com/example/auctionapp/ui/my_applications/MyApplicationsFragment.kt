@@ -48,6 +48,7 @@ class MyApplicationsFragment : Fragment(R.layout.my_applications_fragment),
     private fun handleData() {
         with(viewModel) {
             productLive.observe(viewLifecycleOwner) { products ->
+                binding.nothingToShow.isGone = products.isNotEmpty()
                 productAdapter.items = products
             }
             progressLive.observe(viewLifecycleOwner) {

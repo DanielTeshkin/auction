@@ -9,6 +9,7 @@ import com.example.auctionapp.data.model.toModel
 import com.example.auctionapp.data.networking.ApiService
 import com.example.auctionapp.domain.models.BaseResponse
 import com.example.auctionapp.domain.models.ElectedProductModel
+import com.example.auctionapp.domain.models.MyBidModel
 import com.example.auctionapp.domain.models.ProductModel
 import com.example.auctionapp.domain.repository.ProductRepository
 import com.squareup.moshi.supertypeOf
@@ -57,6 +58,17 @@ class ProductRepositoryImpl @Inject constructor(
                 BaseResponse.Success(Unit)
             } catch (e: Exception) {
                 Log.d("TTT", e.message.toString())
+                BaseResponse.Error(e.message.toString())
+            }
+        }
+    }
+
+    override suspend fun getBidList(): BaseResponse<List<MyBidModel>> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val res = api.getMyBidsList()
+                BaseResponse.Success(res.results.map { it.toModel() })
+            } catch (e: java.lang.Exception) {
                 BaseResponse.Error(e.message.toString())
             }
         }

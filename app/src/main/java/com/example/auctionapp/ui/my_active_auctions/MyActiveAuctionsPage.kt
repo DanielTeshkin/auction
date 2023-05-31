@@ -47,6 +47,10 @@ class MyActiveAuctionsPage : Fragment(R.layout.detail_product_item),
         super.onViewCreated(view, savedInstanceState)
         initView()
         bind()
+        initData()
+        while (true) {
+            viewModel.getDetailInfo(info.id, 5000)
+        }
     }
 
 
@@ -66,7 +70,6 @@ class MyActiveAuctionsPage : Fragment(R.layout.detail_product_item),
         this.info = info
         binding.minStep.text = getString(R.string.min_step, info.rateHikePrice)
         photosAdapter.items = info.photos
-        binding.price.text = getString(R.string.price, info.price.toString())
         startDate = info.startDate
         endDate = info.endDate
         binding.name.text = info.title.toString()
@@ -85,6 +88,13 @@ class MyActiveAuctionsPage : Fragment(R.layout.detail_product_item),
         binding.llRaicePrice.isGone = false
         binding.call.setOnClickListener {
             viewModel.racePrice(id = info.id, info = RacePriceModel(currentPrice.toString()))
+            viewModel.getDetailInfo(info.id, 0)
+        }
+    }
+
+    private fun initData() {
+        viewModel.infoFlow.observe(viewLifecycleOwner) {
+            binding.currentPrice.text = getString(R.string.current_price, it.price.toString())
         }
     }
 

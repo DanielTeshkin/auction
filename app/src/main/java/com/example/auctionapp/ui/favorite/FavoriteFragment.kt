@@ -2,6 +2,7 @@ package com.example.auctionapp.ui.favorite
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -52,9 +53,8 @@ class FavoriteFragment : Fragment(R.layout.favorite_fragment),
 
     private fun handleLive() {
         viewModel.liveItems.observe(viewLifecycleOwner) {
+            binding.nothingToShow.isGone = it.isNotEmpty()
             productAdapter.items = it
-        }
-        mainViewModel.liveFavoriteItems.observe(viewLifecycleOwner) {
         }
     }
 

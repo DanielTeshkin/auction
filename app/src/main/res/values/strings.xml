@@ -131,5 +131,6 @@
     <string name="raice_price">+</string>
     <string name="down_price">-</string>
     <string name="active_auctions">Активные аукционы</string>
+    <string name="nothing_to_show">Ничего не найдено</string>
 
 </resources>

@@ -107,8 +107,9 @@ class SearchFragment : Fragment(R.layout.search_fragment),
     private fun handleData() {
         with(viewModel) {
             productLive.observe(viewLifecycleOwner) { products ->
-                products.filter { it.startRegistration.isDateAfterToday() && it.endRegistration.isDateBeforeToday() }
-                productAdapter.items = products
+                val filteredProducts = products.filter { it.startRegistration.isDateAfterToday() && it.endRegistration.isDateBeforeToday() }
+                binding.nothingToShow.isGone = filteredProducts.isNotEmpty()
+                productAdapter.items = filteredProducts
 
             }
             progressLive.observe(viewLifecycleOwner) {

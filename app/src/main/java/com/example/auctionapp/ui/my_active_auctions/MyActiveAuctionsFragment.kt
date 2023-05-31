@@ -2,6 +2,7 @@ package com.example.auctionapp.ui.my_active_auctions
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -45,6 +46,7 @@ class MyActiveAuctionsFragment : Fragment(R.layout.fragment_active_auctions) {
 
     private fun handleData() {
         viewModel.productLive.observe(viewLifecycleOwner) {
+            binding.nothingToShow.isGone = it.isNotEmpty()
             binding.vp.adapter = adapter(it)
             addTab(it)
         }

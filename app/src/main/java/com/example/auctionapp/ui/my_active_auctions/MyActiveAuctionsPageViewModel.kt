@@ -11,6 +11,7 @@ import com.example.auctionapp.domain.models.RacePriceModel
 import com.example.auctionapp.domain.repository.DetailInfoRepository
 import com.example.auctionapp.tools.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -36,8 +37,8 @@ class MyActiveAuctionsPageViewModel @Inject constructor(
     private val _photosFlow = MutableStateFlow<List<PhotosModel>>(emptyList())
     val photosFlow: StateFlow<List<PhotosModel>> get() = _photosFlow
 
-    private val _infoFlow = MutableStateFlow<ProductModel?>(null)
-    val infoFlow: StateFlow<ProductModel?> get() = _infoFlow
+    private val _infoFlow = MutableLiveData<ProductModel>()
+    val infoFlow: MutableLiveData<ProductModel> get() = _infoFlow
 
 
     fun racePrice(id: String, info: RacePriceModel) {
@@ -53,6 +54,22 @@ class MyActiveAuctionsPageViewModel @Inject constructor(
                 }
             }
             _progressLive.postValue(false)
+        }
+    }
+
+    fun getDetailInfo(id: String, delay: Long) {
+        viewModelScope.launch {
+            delay(delay)
+            val result = repo.getDetailInfo(id)
+            when (result) {
+                is BaseResponse.Success -> {
+                    result.data.photos?.let { _photosFlow.emit(it) }
+                    _infoFlow.postValue(result.data)
+                }
+                is BaseResponse.Error -> {
+                    _failLive.postValue(result.message)
+                }
+            }
         }
     }
 }
