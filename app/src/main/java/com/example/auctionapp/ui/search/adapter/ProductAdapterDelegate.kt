@@ -1,6 +1,7 @@
 package com.example.auctionapp.ui.search.adapter
 
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.auctionapp.R
@@ -16,6 +17,7 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 class ProductAdapterDelegate(
+    private val isFromFavorite: Boolean,
     private val listener: OnItemClickListener
 ) :
     AbsListItemAdapterDelegate<FavoriteProductModel, FavoriteProductModel, ProductAdapterDelegate.Holder>() {
@@ -30,8 +32,9 @@ class ProductAdapterDelegate(
 
     override fun onCreateViewHolder(parent: ViewGroup): Holder {
         return Holder(
+            isFromFavorite,
             parent.inflate(
-                ItemProductBinding::inflate
+                ItemProductBinding::inflate,
             ),
             listener
         )
@@ -47,9 +50,11 @@ class ProductAdapterDelegate(
 
 
     class Holder(
+        private val isFromFavorite: Boolean,
         private val binding: ItemProductBinding,
         listener: OnItemClickListener,
-    ) : RecyclerView.ViewHolder(binding.root) {
+
+        ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.run {
@@ -60,13 +65,16 @@ class ProductAdapterDelegate(
 
         private val context = binding.root.context
         fun bind(product: FavoriteProductModel) = with(binding) {
+            call.isGone = isFromFavorite
             like.isChecked = product.isFavorite
             like.setOnClickListener {
                 product.isFavorite = !product.isFavorite
             }
             this.product = product
-            registerTimeStart.text = context.getString(R.string.register_time_start, product.startRegistration)
-            registerTimeEnd.text = context.getString(R.string.register_time_end, product.endRegistration)
+            registerTimeStart.text =
+                context.getString(R.string.register_time_start, product.startRegistration)
+            registerTimeEnd.text =
+                context.getString(R.string.register_time_end, product.endRegistration)
             price.text = context.getString(R.string.price, product.price.toString())
             title.text = product.title
             Glide.with(itemView)

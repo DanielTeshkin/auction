@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.auctionapp.data.use_case.GetCitiesUseCase
 import com.example.auctionapp.domain.models.CitiesModel
 import com.example.auctionapp.domain.models.City
+import com.example.auctionapp.domain.models.ElectedProductModel
 import com.example.auctionapp.domain.models.ProductModel
 import com.example.auctionapp.domain.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,8 +24,8 @@ private val getCitiesUseCase: GetCitiesUseCase
     private val _citiesLiveData = MutableLiveData<List<CitiesModel>>()
     val citiesLiveData: LiveData<List<CitiesModel>> get() = _citiesLiveData
 
-    private val _liveFavoriteItems = MutableLiveData<List<ProductModel>>()
-    val liveFavoriteItems: LiveData<List<ProductModel>> get() = _liveFavoriteItems
+    private val _liveFavoriteItems = MutableLiveData<List<ElectedProductModel>>()
+    val liveFavoriteItems: LiveData<List<ElectedProductModel>> get() = _liveFavoriteItems
 
     private val _minPriceLiveData = MutableLiveData<String>()
     val minPriceLiveData: LiveData<String> get() = _minPriceLiveData

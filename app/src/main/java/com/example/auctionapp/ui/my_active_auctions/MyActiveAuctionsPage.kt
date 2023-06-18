@@ -1,12 +1,15 @@
 package com.example.auctionapp.ui.my_active_auctions
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import autoCleared
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.auctionapp.PagerLifecycle
 import com.example.auctionapp.R
 import com.example.auctionapp.databinding.DetailProductItemBinding
 import com.example.auctionapp.domain.models.PhotosModel
@@ -18,10 +21,14 @@ import com.example.auctionapp.ui.detail.adapter.PhotosAdapter
 import com.example.auctionapp.ui.detail.adapter.PhotosAdapterDelegate
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MyActiveAuctionsPage : Fragment(R.layout.detail_product_item),
-    PhotosAdapterDelegate.OnPhotoClickListener {
+    PhotosAdapterDelegate.OnPhotoClickListener, PagerLifecycle {
 
     private var photosAdapter: PhotosAdapter by autoCleared()
 
@@ -36,6 +43,9 @@ class MyActiveAuctionsPage : Fragment(R.layout.detail_product_item),
     private var currentPrice = 0L
     private var minStep = 0L
     private var minPrice = 0L
+    private var intermediatePrice = 0L
+    private var apiPrice = 0L
+    var job : Job? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,22 +53,26 @@ class MyActiveAuctionsPage : Fragment(R.layout.detail_product_item),
         info = arguments?.getSerializable(ACTIVE_PRODUCT_ITEM) as ProductModel
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
         bind()
         initData()
-        while (true) {
-            viewModel.getDetailInfo(info.id, 5000)
+        job = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            while (true) {
+                delay(1000)
+                viewModel.getDetailInfo(info.id,0 )
+            }
         }
     }
-
 
     private fun bind() {
         binding.registerTimeStart.isGone = true
         binding.registerTimeEnd.isGone = true
         binding.like.isGone = true
         binding.apply.isGone = true
+        binding.llSearchButtons.isGone = false
         binding.downPriceBtn.text =
             getString(R.string.down_price)
         binding.raicePriceBtn.text =
@@ -89,12 +103,22 @@ class MyActiveAuctionsPage : Fragment(R.layout.detail_product_item),
         binding.call.setOnClickListener {
             viewModel.racePrice(id = info.id, info = RacePriceModel(currentPrice.toString()))
             viewModel.getDetailInfo(info.id, 0)
+            binding.downPriceBtn.isEnabled = false
         }
     }
 
     private fun initData() {
         viewModel.infoFlow.observe(viewLifecycleOwner) {
-            binding.currentPrice.text = getString(R.string.current_price, it.price.toString())
+            apiPrice = it.price
+            binding.currentPriceFromApi.text = getString(R.string.current_price_from_api, it.price.toString())
+            if (currentPrice != it.price) {
+                if (currentPrice < it.price) {
+                    binding.currentPrice.text = getString(R.string.current_price, it.price.toString())
+                    currentPrice = it.price
+                }
+            } else {
+                binding.downPriceBtn.isEnabled = false
+            }
         }
     }
 
@@ -103,16 +127,18 @@ class MyActiveAuctionsPage : Fragment(R.layout.detail_product_item),
         binding.viewPager.adapter = photosAdapter
 
         binding.raicePriceBtn.setOnClickListener {
+            intermediatePrice += minPrice
             currentPrice += minStep
             binding.currentPrice.text = getString(R.string.current_price, currentPrice.toString())
             binding.call.isEnabled = currentPrice > minPrice
             binding.downPriceBtn.isEnabled = currentPrice > minPrice
         }
         binding.downPriceBtn.setOnClickListener {
+            intermediatePrice -= minPrice
             currentPrice -= minStep
             binding.currentPrice.text = getString(R.string.current_price, currentPrice.toString())
             binding.call.isEnabled = currentPrice > minPrice
-            binding.downPriceBtn.isEnabled = currentPrice > minPrice
+            binding.downPriceBtn.isEnabled = currentPrice > apiPrice
         }
         binding.status.isGone = true
     }
@@ -132,5 +158,8 @@ class MyActiveAuctionsPage : Fragment(R.layout.detail_product_item),
 
     }
 
-
+    override fun onDestroyPagerView() {
+        job?.cancel()
+        job = null
+    }
 }

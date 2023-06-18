@@ -8,14 +8,17 @@ import com.example.auctionapp.ui.my_active_auctions.MyActiveAuctionsPage
 
 class ActiveAuctionsPagerAdapter(fm: FragmentActivity, private val items: List<ProductModel>) :
     FragmentStateAdapter(fm) {
+
+    var fragments: ArrayList<Fragment> = arrayListOf()
     override fun getItemCount(): Int {
         return items.size
     }
 
     override fun createFragment(position: Int): Fragment {
         val item = items[position]
-        return MyActiveAuctionsPage().newInstance(item)
+        val frag = MyActiveAuctionsPage().newInstance(item)
+        fragments.add(frag)
+        return frag
     }
-
 
 }

@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -22,6 +23,7 @@ import com.example.auctionapp.tools.getOnlyTime
 import com.example.auctionapp.tools.isDateAfterToday
 import com.example.auctionapp.tools.isDateBeforeToday
 import com.example.auctionapp.tools.toast
+import com.example.auctionapp.ui.MainViewModel
 import com.example.auctionapp.ui.detail.adapter.PhotosAdapter
 import com.example.auctionapp.ui.detail.adapter.PhotosAdapterDelegate
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,11 +50,11 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
     private var currentPrice = 0L
     private var minStep = 0L
     private var minPrice = 0L
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getFavorite()
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,9 +65,7 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
             handleData()
         }
         binding.like.setOnClickListener {
-            val check = viewModel.favoriteLive.value?.contains(item) == true
-            Log.d("TTT", check.toString())
-            if (viewModel.favoriteLive.value?.contains(item) == true) viewModel.deleteProductFromFavorite(
+            if (viewModel.favoriteLive.value?.firstOrNull { it.id == item?.id } != null) viewModel.deleteProductFromFavorite(
                 item!!
             ) else viewModel.insertToDb(
                 item!!
@@ -79,6 +79,7 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
             progressLive.observe(viewLifecycleOwner) {
                 binding.progress.isGone = !it
             }
+
             failLive.observe(viewLifecycleOwner) {
                 toast("Что то пошло не так")
             }
@@ -102,12 +103,15 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
                     currentPrice = info.price
                     minStep = info.rateHikePrice.toDouble().toLong()
                     item = info
-                    binding.like.isChecked = favoriteLive.value?.contains(info) == true
                     binding.minStep.text = getString(R.string.min_step, info.rateHikePrice)
                     photosAdapter.items = info.photos
                     binding.price.text = getString(R.string.price, info.price.toString())
                     startDate = info.startDate
                     endDate = info.endDate
+                    favoriteLive.observe(viewLifecycleOwner) {
+                        binding.like.isChecked = it?.firstOrNull { it.id == info.id } != null
+
+                    }
                     binding.name.text = info.title.toString()
                     binding.note.text = info.description.toString()
                     binding.date.text =
@@ -126,12 +130,15 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
                     val isNotEnd = endDate!!.isDateAfterToday()
                     Log.d("TTT", isAfterToday.toString())
                     Log.d("TTT", isNotEnd.toString())
-                    val r = isAfterToday && isNotEnd
+                    val r = isAfterToday && isNotEnd && !args.isItBid
                     val rd =
                         info.startRegistration.isDateBeforeToday() && info.endRegistration.isDateAfterToday() && !args.isItBid
+                    binding.llSearchButtons.isGone =!r
                     binding.call.isGone = !r
                     binding.llRaicePrice.isGone = !r
+                    binding.llSearchButtons.isGone =!rd
                     binding.apply.isGone = !rd
+                    binding.apply.isGone = mainViewModel.liveFavoriteItems.value!!.firstOrNull { it.id == item?.id } != null
                     binding.apply.setOnClickListener {
                         viewModel.createBid(info.id)
                     }

@@ -36,6 +36,7 @@ Log.d("TTT", res.message.toString())
     fun deleteProductFromFavorite(info: ProductModel) {
         viewModelScope.launch {
             repo.deleteProduct(info)
+            getAll()
         }
     }
 }

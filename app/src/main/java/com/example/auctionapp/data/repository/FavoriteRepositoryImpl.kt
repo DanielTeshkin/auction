@@ -35,6 +35,7 @@ class FavoriteRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             try {
                 api.deleteElectedItem(info.id)
+
             } catch (e: Exception) {
                 Log.d("TTT", e.message.toString())
             }

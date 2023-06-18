@@ -45,6 +45,9 @@ class SearchFragment : Fragment(R.layout.search_fragment),
     private var searchText: String = ""
     private val mainViewModel by activityViewModels<MainViewModel>()
 
+    private var sortText = ""
+    private var currentSortInfo = ""
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,7 +58,7 @@ class SearchFragment : Fragment(R.layout.search_fragment),
 
 
     private fun initView() {
-        productAdapter = ProductAdapter(this)
+        productAdapter = ProductAdapter(this, false)
         with(binding.rv) {
             adapter = productAdapter
             layoutManager =
@@ -94,6 +97,8 @@ class SearchFragment : Fragment(R.layout.search_fragment),
                 .mapLatest { text ->
                     searchText = text
                     val sortInfo = if (sort) "price" else ""
+                    sortText = text
+                    currentSortInfo = sortInfo
                     viewModel.getProducts(
                         text, sortInfo, mainViewModel.minPriceLiveData.value ?: "",
                         mainViewModel.maxPriceLiveData.value ?: "",
@@ -107,7 +112,7 @@ class SearchFragment : Fragment(R.layout.search_fragment),
     private fun handleData() {
         with(viewModel) {
             productLive.observe(viewLifecycleOwner) { products ->
-                val filteredProducts = products.filter { it.startRegistration.isDateAfterToday() && it.endRegistration.isDateBeforeToday() }
+                val filteredProducts = products.filter { it.startRegistration.isDateBeforeToday() && it.endRegistration.isDateAfterToday() }
                 binding.nothingToShow.isGone = filteredProducts.isNotEmpty()
                 productAdapter.items = filteredProducts
 
@@ -117,14 +122,6 @@ class SearchFragment : Fragment(R.layout.search_fragment),
             }
             failLive.observe(viewLifecycleOwner) {
                 toast(it)
-            }
-            mainViewModel.liveFavoriteItems.observe(viewLifecycleOwner) {
-            }
-            mainViewModel.maxPriceLiveData.observe(viewLifecycleOwner) {
-                Log.d("TTT", "max $it")
-            }
-            mainViewModel.minPriceLiveData.observe(viewLifecycleOwner) {
-                Log.d("TTT", "min $it")
             }
         }
     }
@@ -153,10 +150,16 @@ class SearchFragment : Fragment(R.layout.search_fragment),
         if (product.isFavorite) viewModel.deleteProductFromFavorite(product.toProductModel()) else viewModel.insertToDb(
             product.toProductModel()
         )
+
     }
 
     override fun onBidClick(id: String) {
         viewModel.createBid(id)
+        viewModel.getProducts(
+            sortText, currentSortInfo, mainViewModel.minPriceLiveData.value ?: "",
+            mainViewModel.maxPriceLiveData.value ?: "",
+            mainViewModel.selectedCityLiveData.value ?: ""
+        )
     }
 
 }

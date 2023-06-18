@@ -32,7 +32,7 @@ class GetAllAuctionUseCase @Inject constructor(
                         when(bids) {
                             is BaseResponse.Success -> {
                                 val currentResult = result.data.filter { item ->
-                                    !bids.data.any { bids -> item.id == bids.id }
+                                    !bids.data.any { bids -> item.id == bids.product.id }
                                 }
                                 currentResult.map { product ->
                                     product.toFavoriteModel(favorites.data.map { it.product.id }

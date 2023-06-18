@@ -41,7 +41,7 @@ class FavoriteFragment : Fragment(R.layout.favorite_fragment),
     }
 
     private fun initView() {
-        productAdapter = ProductAdapter(this)
+        productAdapter = ProductAdapter(this, true )
         with(binding.rv) {
             adapter = productAdapter
             layoutManager =

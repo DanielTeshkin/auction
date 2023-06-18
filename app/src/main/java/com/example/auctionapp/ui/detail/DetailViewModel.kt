@@ -75,7 +75,6 @@ class DetailViewModel @Inject constructor(
             val result = repo.createBid(info = BidCreateRequestModel(id))
             when(result) {
                 is BaseResponse.Success -> {
-                    _successLive.postValue(Unit)
                 }
                 is BaseResponse.Error -> {
                     _failLive.postValue(result.message)
@@ -91,8 +90,8 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private val _favoriteLive = MutableLiveData<List<ProductModel>>()
-    val favoriteLive: LiveData<List<ProductModel>> get() = _favoriteLive
+    private val _favoriteLive = MutableLiveData<List<ElectedProductModel>>()
+    val favoriteLive: LiveData<List<ElectedProductModel>> get() = _favoriteLive
 
     fun getFavorite() {
         viewModelScope.launch {

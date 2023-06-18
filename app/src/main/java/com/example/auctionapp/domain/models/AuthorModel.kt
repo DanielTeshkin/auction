@@ -7,4 +7,4 @@ data class AuthorModel(
     val lastname: String?,
     val patronymic: String?,
     val email: String?
-)
+): java.io.Serializable

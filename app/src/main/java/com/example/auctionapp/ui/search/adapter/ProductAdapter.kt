@@ -6,12 +6,13 @@ import com.example.auctionapp.domain.models.ProductModel
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 
 class ProductAdapter(
-    listener: ProductAdapterDelegate.OnItemClickListener
-) : AsyncListDifferDelegationAdapter<FavoriteProductModel>(ProductDiffUtilCallback()) {
+    listener: ProductAdapterDelegate.OnItemClickListener,
+    isFromFavorite: Boolean,
+    ) : AsyncListDifferDelegationAdapter<FavoriteProductModel>(ProductDiffUtilCallback()) {
 
 
     init {
-        delegatesManager.addDelegate(ProductAdapterDelegate(listener))
+        delegatesManager.addDelegate(ProductAdapterDelegate(isFromFavorite, listener))
     }
 
     override fun getItemId(position: Int): Long {

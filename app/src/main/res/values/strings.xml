@@ -7,6 +7,7 @@
     <string name="price">Начальная цена: %s ₽</string>
     <string name="end_price">Цена: %s ₽</string>
     <string name="current_price">%s ₽</string>
+    <string name="current_price_from_api">Текущая цена: %s</string>
     <string name="min_step">Минимальный шаг: %s ₽</string>
     <string name="date_format">%s - %s</string>
     <string name="detail_date_format">%s - %s</string>
