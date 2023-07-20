@@ -5,10 +5,10 @@
     <data>
 <variable
     name="listener"
-    type="com.example.auctionapp.ui.detail.adapter.PhotosAdapterDelegate.OnPhotoClickListener" />
+    type="com.auction.mobile.ui.detail.adapter.PhotosAdapterDelegate.OnPhotoClickListener" />
     <variable
         name="photo"
-        type="com.example.auctionapp.domain.models.PhotosModel" />
+        type="com.auction.mobile.domain.models.PhotosModel" />
 
     </data>
 

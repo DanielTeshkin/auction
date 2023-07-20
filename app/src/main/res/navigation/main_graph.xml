@@ -6,11 +6,11 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.auctionapp.ui.profile.ProfileFragment"
+        android:name="com.auction.mobile.ui.profile.ProfileFragment"
         android:label="ProfileFragment" />
     <fragment
         android:id="@+id/searchFragment2"
-        android:name="com.example.auctionapp.ui.search.SearchFragment"
+        android:name="com.auction.mobile.ui.search.SearchFragment"
         android:label="SearchFragment" >
         <action
             android:id="@+id/action_searchFragment2_to_detailFragment2"
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.auctionapp.ui.favorite.FavoriteFragment"
+        android:name="com.auction.mobile.ui.favorite.FavoriteFragment"
         android:label="FavoriteFragment" >
         <action
             android:id="@+id/action_favoriteFragment_to_detailFragment2"
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment2"
-        android:name="com.example.auctionapp.ui.detail.DetailFragment"
+        android:name="com.auction.mobile.ui.detail.DetailFragment"
         android:label="DetailFragment" >
         <argument
             android:name="id"
@@ -37,10 +37,10 @@
     </fragment>
     <fragment
         android:id="@+id/myApplicationsFragment"
-        android:name="com.example.auctionapp.ui.my_applications.MyApplicationsFragment"
+        android:name="com.auction.mobile.ui.my_applications.MyApplicationsFragment"
         android:label="MyApplicationsFragment" />
     <fragment
         android:id="@+id/myActiveAuctionsFragment"
-        android:name="com.example.auctionapp.ui.my_active_auctions.MyActiveAuctionsFragment"
+        android:name="com.auction.mobile.ui.my_active_auctions.MyActiveAuctionsFragment"
         android:label="MyActiveAuctionsFragment" />
 </navigation>

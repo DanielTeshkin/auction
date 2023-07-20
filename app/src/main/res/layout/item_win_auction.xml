@@ -6,10 +6,10 @@
     <data>
         <variable
             name="product"
-            type="com.example.auctionapp.domain.models.ProductModel" />
+            type="com.auction.mobile.domain.models.ProductModel" />
         <variable
             name="listener"
-            type="com.example.auctionapp.ui.win_auctions.adapter.WinAuctionAdapterDelegate.OnItemClickListener" />
+            type="com.auction.mobile.ui.win_auctions.adapter.WinAuctionAdapterDelegate.OnItemClickListener" />
 
     </data>
 

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/openFragment"
-        android:name="com.example.auctionapp.ui.open.OpenFragment"
+        android:name="com.auction.mobile.ui.open.OpenFragment"
         android:label="OpenFragment" >
         <action
             android:id="@+id/action_openFragment_to_loginFragment"
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.auctionapp.ui.login.LoginFragment"
+        android:name="com.auction.mobile.ui.login.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_passportRecoveryFragment"
@@ -34,11 +34,11 @@
     </fragment>
     <fragment
         android:id="@+id/passportRecoveryFragment"
-        android:name="com.example.auctionapp.ui.pass_recovery.PasswordRecoveryFragment"
+        android:name="com.auction.mobile.ui.pass_recovery.PasswordRecoveryFragment"
         android:label="PassportRecoveryFragment" />
     <fragment
         android:id="@+id/confirmNumberFragment"
-        android:name="com.example.auctionapp.ui.register.number.ConfirmNumberFragment"
+        android:name="com.auction.mobile.ui.register.number.ConfirmNumberFragment"
         android:label="ConfirmNumberFragment" >
         <action
             android:id="@+id/action_confirmNumberFragment_to_confirmCodeFragment"
@@ -46,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/confirmCodeFragment"
-        android:name="com.example.auctionapp.ui.register.code.ConfirmCodeFragment"
+        android:name="com.auction.mobile.ui.register.code.ConfirmCodeFragment"
         android:label="ConfirmCodeFragment" >
         <action
             android:id="@+id/action_confirmCodeFragment_to_completionFragment"
@@ -66,7 +66,7 @@
     </fragment>
     <fragment
         android:id="@+id/completionFragment"
-        android:name="com.example.auctionapp.ui.register.completion.CompletionFragment"
+        android:name="com.auction.mobile.ui.register.completion.CompletionFragment"
         android:label="CompletionFragment" >
         <action
             android:id="@+id/action_completionFragment_to_mainFragment"
@@ -74,11 +74,11 @@
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
-        android:name="com.example.auctionapp.ui.search.filter.FilterFragment"
+        android:name="com.auction.mobile.ui.search.filter.FilterFragment"
         android:label="FilterFragment" />
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.auctionapp.ui.detail.DetailFragment"
+        android:name="com.auction.mobile.ui.detail.DetailFragment"
         android:label="DetailFragment" >
         <argument
             android:name="id"
@@ -93,7 +93,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.auctionapp.ui.main.MainFragment"
+        android:name="com.auction.mobile.ui.main.MainFragment"
         android:label="MainFragment" >
         <action
             android:id="@+id/action_mainFragment_to_detailFragment"
@@ -107,7 +107,7 @@
     </fragment>
     <fragment
         android:id="@+id/passwordRecoveryFragment"
-        android:name="com.example.auctionapp.ui.login.pass_recovery.PasswordRecoveryFragment"
+        android:name="com.auction.mobile.ui.login.pass_recovery.PasswordRecoveryFragment"
         android:label="PasswordRecoveryFragment" >
         <argument
             android:name="number"
@@ -118,7 +118,7 @@
     </fragment>
     <fragment
         android:id="@+id/winAuctionsFragment"
-        android:name="com.example.auctionapp.ui.win_auctions.WinAuctionsFragment"
+        android:name="com.auction.mobile.ui.win_auctions.WinAuctionsFragment"
         android:label="WinAuctionsFragment" >
         <action
             android:id="@+id/action_winAuctionsFragment_to_detailFragment"
