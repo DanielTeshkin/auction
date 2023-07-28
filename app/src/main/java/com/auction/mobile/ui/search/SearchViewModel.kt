@@ -6,11 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.auction.mobile.data.use_case.CreateBidUseCase
 import com.auction.mobile.data.use_case.GetAllAuctionUseCase
-import com.auction.mobile.domain.models.BaseResponse
-import com.auction.mobile.domain.models.BidCreateRequestModel
-import com.auction.mobile.domain.models.FavoriteProductModel
-import com.auction.mobile.domain.models.ProductModel
+import com.auction.mobile.domain.models.*
 import com.auction.mobile.domain.repository.ProductRepository
+import com.auction.mobile.domain.repository.ProfileRepository
 import com.auction.mobile.tools.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,8 +18,12 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val repo: ProductRepository,
     private val getAllProductUseCase: GetAllAuctionUseCase,
-    private val createBidUseCase: CreateBidUseCase
-) : ViewModel() {
+    private val createBidUseCase: CreateBidUseCase,
+    private val profileRepo: ProfileRepository,
+    ) : ViewModel() {
+
+    private val _infoLive = MutableLiveData<GetUserInfoModel>()
+    val infoLive: LiveData<GetUserInfoModel> get() = _infoLive
 
     private val _successLive = MutableLiveData<Unit>()
     val successLive: LiveData<Unit> get() = _successLive
@@ -45,6 +47,23 @@ class SearchViewModel @Inject constructor(
                 }
                 is BaseResponse.Error -> {
                     _failLive.postValue(res.message)
+                }
+            }
+            _progressLive.postValue(false)
+        }
+    }
+
+
+    fun getInfo() {
+        viewModelScope.launch {
+            _progressLive.postValue(true)
+            val result = profileRepo.getProfileInfo()
+            when(result) {
+                is BaseResponse.Success -> {
+                    _infoLive.postValue(result.data)
+                }
+                is BaseResponse.Error -> {
+                    _failLive.postValue(result.message)
                 }
             }
             _progressLive.postValue(false)

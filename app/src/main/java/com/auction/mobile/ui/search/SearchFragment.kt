@@ -23,6 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.search_fragment),
@@ -39,12 +40,16 @@ class SearchFragment : Fragment(R.layout.search_fragment),
     private var sortText = ""
     private var currentSortInfo = ""
 
+    @Inject
+    lateinit var prefs: PreferencesHelper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (prefs.mPhoneNumber == "") viewModel.getInfo()
         search()
         handleData()
         initView()
+
     }
 
 
@@ -76,9 +81,6 @@ class SearchFragment : Fragment(R.layout.search_fragment),
     }
 
 
-
-
-
     private fun search() {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
@@ -103,7 +105,8 @@ class SearchFragment : Fragment(R.layout.search_fragment),
     private fun handleData() {
         with(viewModel) {
             productLive.observe(viewLifecycleOwner) { products ->
-                val filteredProducts = products.filter { it.startRegistration.isDateBeforeToday() && it.endRegistration.isDateAfterToday() }
+                val filteredProducts =
+                    products.filter { it.startRegistration.isDateBeforeToday() && it.endRegistration.isDateAfterToday() }
                 binding.nothingToShow.isGone = filteredProducts.isNotEmpty()
                 productAdapter.items = filteredProducts
 
@@ -113,6 +116,9 @@ class SearchFragment : Fragment(R.layout.search_fragment),
             }
             failLive.observe(viewLifecycleOwner) {
                 toast(it)
+            }
+            viewModel.infoLive.observe(viewLifecycleOwner) {
+                prefs.mPhoneNumber = it.phone
             }
         }
     }

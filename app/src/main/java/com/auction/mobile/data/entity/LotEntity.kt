@@ -54,7 +54,8 @@ fun List<LotEntity>.toModel(): List<ProductModel> {
                 startRegistration = "",
                 endRegistration = "",
                 rateHikePrice = "",
-                author = AuthorModel("", null,null,null,null,)
+                author = AuthorModel("", null,null,null,null,),
+                registrationPrice = 1
             )
         )
     }
@@ -100,7 +101,8 @@ fun LotEntity.toModel(): ProductModel {
         startRegistration = "",
         endRegistration = "",
         rateHikePrice = "",
-        author = AuthorModel("", null,null,null,null,)
+        author = AuthorModel("", null,null,null,null,),
+        registrationPrice = 1
     )
 }
 

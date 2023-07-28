@@ -37,7 +37,7 @@
             android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registerTimeEnd" />
+            app:layout_constraintTop_toBottomOf="@+id/registerPrice" />
 
         <TextView
             android:id="@+id/end_date"
@@ -112,6 +112,20 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/registerTimeStart" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/registerPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:text="5555"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/registerTimeEnd" />
 
         <TextView
             android:id="@+id/name"
@@ -200,11 +214,80 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/note_title"
             tools:hint="Текст описания" />
+
+        <LinearLayout
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/note"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/priceHistoryTitle"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grid_border"
+                android:paddingStart="8dp"
+                android:text="Пользователь" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grid_border"
+                android:paddingStart="8dp"
+                android:text="Время" />
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grid_border"
+                android:paddingStart="8dp"
+                android:text="Цена, ₽" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:id="@+id/historyRV"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/priceHistoryTitle"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tvExpand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="8dp"
+            style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+            android:text="Развернуть"
+            android:textColor="#3CC7FF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/historyRV" />
+
 
         <LinearLayout
             android:visibility="gone"

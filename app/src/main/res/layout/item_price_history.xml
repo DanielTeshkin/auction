@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"
+        android:background="@drawable/grid_border"
+        android:paddingStart="8dp"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"
+        android:background="@drawable/grid_border"
+        android:paddingStart="8dp"
+        tools:text="5455" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="0dp"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:ellipsize="end"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:background="@drawable/grid_border"
+        android:paddingStart="8dp"
+        tools:text="5455" />
+</LinearLayout>

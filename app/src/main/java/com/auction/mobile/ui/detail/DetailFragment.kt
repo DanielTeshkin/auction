@@ -85,6 +85,8 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
             }
             infoFlow.collect { info ->
                 if (info != null) {
+                    binding.registerPrice.isGone = false
+                    binding.registerPrice.text = getString(R.string.reg_price, info.registrationPrice.toString())
                     binding.downPriceBtn.text = getString(
                         R.string.down_price,
                     )

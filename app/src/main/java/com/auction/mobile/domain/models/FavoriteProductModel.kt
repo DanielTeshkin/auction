@@ -13,12 +13,31 @@ data class FavoriteProductModel(
     val endDate: String?,
     val price: Long,
     val category: String?,
-    var isFavorite: Boolean
+    var isFavorite: Boolean,
+    val registrationPrice: Int
 )
 
 fun FavoriteProductModel.toProductModel(): ProductModel {
     return ProductModel(
-        rateHikePrice, endRegistration, startRegistration,id, city, photos, title, description, startDate, endDate, price, category,                 author = AuthorModel("", null,null,null,null,)
-
+        rateHikePrice,
+        endRegistration,
+        startRegistration,
+        id,
+        city,
+        photos,
+        title,
+        description,
+        startDate,
+        endDate,
+        price,
+        category,
+        author = AuthorModel(
+            "",
+            null,
+            null,
+            null,
+            null,
+        ),
+        registrationPrice = registrationPrice
     )
 }

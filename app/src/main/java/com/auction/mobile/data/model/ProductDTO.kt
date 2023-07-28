@@ -31,7 +31,11 @@ data class ProductDTO(
     @Json(name = "category")
     val category: String?,
     @Json(name = "author")
-    val author: AuthorDTO
+    val author: AuthorDTO,
+    @Json(name = "price_history")
+    val priceHistory: List<ProductHistoryDTO>,
+    @Json(name = "registration_price")
+    val registrationPrice: Int
 )
 
 
@@ -52,7 +56,9 @@ fun List<ProductDTO>.toModel(): List<ProductModel> {
                 startRegistration = it.startRegistration,
                 endRegistration = it.endRegistration,
                 rateHikePrice = it.rateHikePrice,
-                author = it.author.toModel()
+                author = it.author.toModel(),
+                priceHistory = it.priceHistory.map { history ->  history.toModel() },
+                registrationPrice = it.registrationPrice
             )
         )
     }
@@ -73,6 +79,8 @@ fun ProductDTO.toModel(): ProductModel {
         startRegistration = startRegistration,
         endRegistration = endRegistration,
         rateHikePrice = rateHikePrice,
-        author = author.toModel()
+        author = author.toModel(),
+        priceHistory = priceHistory.map { history ->  history.toModel() },
+        registrationPrice = registrationPrice
     )
 }

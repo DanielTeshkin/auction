@@ -39,9 +39,7 @@ interface ApiService {
     suspend fun getActiveProductList(): ProductBaseResponseDTO<ProductDTO>
 
     @POST("confirm/phone/confirmed/")
-    suspend
-
-    fun checkCode(
+    suspend fun checkCode(
         @Body info: SendCodeDTO
     ): String
 

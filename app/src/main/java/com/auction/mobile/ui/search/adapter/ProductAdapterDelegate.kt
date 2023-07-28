@@ -62,6 +62,8 @@ class ProductAdapterDelegate(
 
         private val context = binding.root.context
         fun bind(product: FavoriteProductModel) = with(binding) {
+            registrationPrice.isGone = false
+            registrationPrice.text = context.getString(R.string.reg_price, product.registrationPrice.toString())
             call.isGone = isFromFavorite
             like.isChecked = product.isFavorite
             like.setOnClickListener {

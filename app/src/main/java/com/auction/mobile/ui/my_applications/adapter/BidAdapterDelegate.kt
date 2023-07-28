@@ -58,6 +58,7 @@ class BidAdapterDelegate(
 //            like.setOnClickListener {
 //                product.isFavorite = !product.isFavorite
 //            }
+            registrationPrice.text = context.getString(R.string.reg_price, product.product.registrationPrice.toString())
             status.text = context.getString(R.string.status, product.status)
             this.product = product
             registerTimeStart.text = context.getString(R.string.register_time_start, product.product.startRegistration)

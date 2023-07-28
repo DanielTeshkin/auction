@@ -10,12 +10,15 @@
     <string name="current_price_from_api">Текущая цена: %s</string>
     <string name="min_step">Минимальный шаг: %s ₽</string>
     <string name="date_format">%s - %s</string>
+    <string name="reg_price">Цена регистрации: %s ₽</string>
     <string name="detail_date_format">%s - %s</string>
     <string name="fio_text">ФИО: %s %s %s</string>
     <string name="name_text">Имя: %s %s %s</string>
     <string name="email">Почта: %s</string>
     <string name="phone">Телефон: %s</string>
     <string name="address">Адрес: %s</string>
+    <string name="full_name">%s %s</string>
+    <string name="user_number">Участник %s</string>
 
 
 

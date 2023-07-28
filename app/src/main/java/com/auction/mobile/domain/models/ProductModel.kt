@@ -1,5 +1,7 @@
 package com.auction.mobile.domain.models
 
+import com.auction.mobile.data.model.ProductHistoryDTO
+
 data class ProductModel(
     val rateHikePrice: String,
     val endRegistration: String,
@@ -13,7 +15,9 @@ data class ProductModel(
     val endDate: String?,
     val price: Long,
     val category: String?,
-    val author: AuthorModel
+    val author: AuthorModel,
+    val priceHistory: List<ProductHistoryModel>? = null,
+    val registrationPrice: Int
 ): java.io.Serializable
 
 data class PhotosModel(
@@ -35,7 +39,8 @@ fun ProductModel.toFavoriteModel(isFavorite: Boolean): FavoriteProductModel {
         price = price,
         category = category,
         isFavorite = isFavorite,
-        rateHikePrice = rateHikePrice
+        rateHikePrice = rateHikePrice,
+        registrationPrice = registrationPrice
     )
 
 

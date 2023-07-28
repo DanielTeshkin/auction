@@ -19,6 +19,11 @@ class PreferencesHelper @Inject constructor(
         editor.apply()
     }
 
+    var mPhoneNumber: String
+        get() = sharedPreferences.getString("mPhone", "") ?: ""
+        set(value) = sharedPreferences.edit { it.putString("mPhone", value) }
+
+
     var mAccessToken: String
         get() = sharedPreferences.getString("mAccessToken", "") ?: ""
         set(value) = sharedPreferences.edit { it.putString("mAccessToken", value) }

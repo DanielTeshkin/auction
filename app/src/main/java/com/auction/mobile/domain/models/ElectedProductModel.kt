@@ -21,6 +21,7 @@ fun ElectedProductModel.toFavoriteModel(isFavorite: Boolean) : FavoriteProductMo
         isFavorite = isFavorite,
         startRegistration = product.startRegistration,
         endRegistration = product.endRegistration,
-        rateHikePrice = product.rateHikePrice
+        rateHikePrice = product.rateHikePrice,
+        registrationPrice = product.registrationPrice
     )
 }
