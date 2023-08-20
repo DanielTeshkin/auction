@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), Logout {
         super.onCreate(savedInstanceState)
         viewModel.getCities()
         viewModel.getAllFavorite {}
+        viewModel.getBid()
             if (prefs.mAccessToken != "") {
                 val navHostFragment =
                     supportFragmentManager.findFragmentById(binding.fragment.id) as NavHostFragment

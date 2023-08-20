@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.auction.mobile.data.use_case.GetCitiesUseCase
+import com.auction.mobile.domain.models.BaseResponse
 import com.auction.mobile.domain.models.CitiesModel
 import com.auction.mobile.domain.models.ElectedProductModel
+import com.auction.mobile.domain.models.MyBidModel
+import com.auction.mobile.domain.repository.DetailInfoRepository
 import com.auction.mobile.domain.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
 private val repo: MainRepository,
-private val getCitiesUseCase: GetCitiesUseCase
+private val getCitiesUseCase: GetCitiesUseCase,
+private val detailRepo: DetailInfoRepository
 ): ViewModel() {
 
 
@@ -50,7 +54,19 @@ private val getCitiesUseCase: GetCitiesUseCase
             }
         }
     }
-
+    private val _bidLive = MutableLiveData<List<MyBidModel>>()
+    val bidLive: LiveData<List<MyBidModel>> get() = _bidLive
+    fun getBid() {
+        viewModelScope.launch {
+            val result = detailRepo.getBidList()
+            when(result) {
+                is BaseResponse.Success -> {
+                    _bidLive.postValue(result.data)
+                }
+                else -> {}
+            }
+        }
+    }
     fun setMinPrice(price: String?) {
         _minPriceLiveData.postValue(price ?: "")
     }

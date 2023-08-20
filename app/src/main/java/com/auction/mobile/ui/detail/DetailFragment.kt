@@ -49,6 +49,7 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getFavorite()
+        viewModel.getBid()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -134,7 +135,7 @@ class DetailFragment : Fragment(R.layout.detail_product_item),
                     binding.llRaicePrice.isGone = !r
                     binding.llSearchButtons.isGone =!rd
                     binding.apply.isGone = !rd
-                    binding.apply.isGone = mainViewModel.liveFavoriteItems.value!!.firstOrNull { it.id == item?.id } != null
+                    binding.apply.isGone = mainViewModel.bidLive.value!!.firstOrNull { it.id == item?.id } != null
                     binding.apply.setOnClickListener {
                         viewModel.createBid(info.id)
                     }

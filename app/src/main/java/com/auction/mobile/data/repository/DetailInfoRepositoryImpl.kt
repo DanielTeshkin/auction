@@ -17,6 +17,17 @@ class DetailInfoRepositoryImpl @Inject constructor(
     private val db: LotDao
 ) : DetailInfoRepository {
 
+    override suspend fun getBidList(): BaseResponse<List<MyBidModel>> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val res = api.getMyBidsList()
+                BaseResponse.Success(res.results.map { it.toModel() })
+            } catch (e: java.lang.Exception) {
+                BaseResponse.Error(e.message.toString())
+            }
+        }
+    }
+
     override suspend fun getDetailInfo(id: String): BaseResponse<ProductModel> {
         return withContext(Dispatchers.IO) {
             try {

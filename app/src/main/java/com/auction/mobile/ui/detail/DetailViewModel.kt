@@ -93,11 +93,14 @@ class DetailViewModel @Inject constructor(
     private val _favoriteLive = MutableLiveData<List<ElectedProductModel>>()
     val favoriteLive: LiveData<List<ElectedProductModel>> get() = _favoriteLive
 
+
+
     fun getFavorite() {
         viewModelScope.launch {
             _favoriteLive.postValue(repo.getAllFavorite())
         }
     }
+
 
     fun insertToDb(item: ProductModel) {
         viewModelScope.launch {
